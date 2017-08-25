@@ -1,12 +1,23 @@
-package com.tempus.timewalk.timewalk;
+package com.tempus.timewalk.timewalk.Fragment;
 
-import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.tempus.timewalk.timewalk.Activity.NavigationDrawer;
+import com.tempus.timewalk.timewalk.CardView.CardAdapter;
+import com.tempus.timewalk.timewalk.CardView.DataModel;
+import com.tempus.timewalk.timewalk.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -28,6 +39,10 @@ public class RecommendedRoutesFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+
+    private List<DataModel> cardList;
+    private CardAdapter cardAdapter;
+    private RecyclerView recyclerView;
 
     public RecommendedRoutesFragment() {
         // Required empty public constructor
@@ -59,6 +74,7 @@ public class RecommendedRoutesFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
         ((NavigationDrawer)getActivity()).hideFloatingActionButton();
+
     }
 
     @Override
@@ -66,9 +82,33 @@ public class RecommendedRoutesFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         super.getActivity();
-        return inflater.inflate(R.layout.fragment_recommended_routes, container, false);
+        View view = inflater.inflate(R.layout.fragment_recommended_routes, container, false);
+
+        cardList = new ArrayList<>();
+        cardAdapter = new CardAdapter(getActivity(), cardList);
+
+        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(cardAdapter);
+        prepareContent();
+        return view;
     }
 
+    private void prepareContent() {
+        int[] images = new int[]{R.drawable.rfamily,R.drawable.rretro,R.drawable.rsport};
+        String[] title = new String[]{"Family Walk", "Retro Tour", "Sports Tour"};
+        String[] details = new String[]{"30-40m, 5 Destination", "40-50m, 6 Destination",
+                "50-70m,4 Destination"};
+        String[] description = new String[]{"asasakfb","aoh oYEA H", "osi qo qasdug"};
+        DataModel d;
+
+        for(int i = 0; i < title.length; i++){
+            d = new DataModel(title[i], details[i], description[i], images[i]);
+            cardList.add(d);
+        }
+    }
 
 
     // TODO: Rename method, update argument and hook method into UI event

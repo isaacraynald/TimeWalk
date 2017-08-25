@@ -1,6 +1,5 @@
-package com.tempus.timewalk.timewalk;
+package com.tempus.timewalk.timewalk.Fragment;
 
-import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,16 +7,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.tempus.timewalk.timewalk.Activity.NavigationDrawer;
+import com.tempus.timewalk.timewalk.R;
+
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link SpotsFragment.OnFragmentInteractionListener} interface
+ * {@link CustomizedRoutesFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link SpotsFragment#newInstance} factory method to
+ * Use the {@link CustomizedRoutesFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SpotsFragment extends Fragment {
+public class CustomizedRoutesFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -29,7 +31,7 @@ public class SpotsFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public SpotsFragment() {
+    public CustomizedRoutesFragment() {
         // Required empty public constructor
     }
 
@@ -39,11 +41,11 @@ public class SpotsFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment SpotsFragment.
+     * @return A new instance of fragment CustomizedRoutesFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static SpotsFragment newInstance(String param1, String param2) {
-        SpotsFragment fragment = new SpotsFragment();
+    public static CustomizedRoutesFragment newInstance(String param1, String param2) {
+        CustomizedRoutesFragment fragment = new CustomizedRoutesFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -65,7 +67,7 @@ public class SpotsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_spots, container, false);
+        return inflater.inflate(R.layout.fragment_customized_routes, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -74,8 +76,9 @@ public class SpotsFragment extends Fragment {
             mListener.onFragmentInteraction(uri);
         }
     }
+
     /**
-    @Override
+     * @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {

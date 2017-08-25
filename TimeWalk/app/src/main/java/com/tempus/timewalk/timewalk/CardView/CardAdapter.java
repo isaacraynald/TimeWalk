@@ -1,0 +1,67 @@
+package com.tempus.timewalk.timewalk.CardView;
+
+import android.content.Context;
+import android.media.Image;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.tempus.timewalk.timewalk.R;
+
+import org.w3c.dom.Text;
+
+import java.util.List;
+
+/**
+ * Created by Isaac on 23/8/17.
+ */
+
+public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyViewHolder> {
+    private Context context;
+    private List<DataModel> cardList;
+
+    public class MyViewHolder extends RecyclerView.ViewHolder{
+        public TextView venue, details, description;
+        public ImageView images;
+
+        public MyViewHolder(View itemView) {
+            super(itemView);
+            images = (ImageView)itemView.findViewById(R.id.daftar_icon);
+            venue = (TextView) itemView.findViewById(R.id.title_content);
+            details = (TextView) itemView.findViewById(R.id.pages);
+            description = (TextView) itemView.findViewById(R.id.description);
+
+        }
+    }
+
+    public CardAdapter(Context context, List cardList){
+        this.context = context;
+        this.cardList = cardList;
+    }
+
+    @Override
+    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(
+                R.layout.card_layout, parent, false);
+        return new MyViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(MyViewHolder holder, int position) {
+        DataModel dataModel = cardList.get(position);
+        holder.venue.setText(dataModel.getVenue());
+        holder.details.setText(dataModel.getDetail());
+        holder.description.setText(dataModel.getDescription());
+        holder.images.setImageResource(dataModel.getImages());
+
+    }
+
+    @Override
+    public int getItemCount() {
+        return cardList.size();
+    }
+
+}
