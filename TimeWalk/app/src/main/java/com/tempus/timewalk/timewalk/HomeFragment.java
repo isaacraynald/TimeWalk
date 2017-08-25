@@ -5,9 +5,11 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 
 
 /**
@@ -18,6 +20,9 @@ import android.view.ViewGroup;
  * Use the {@link HomeFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
+
+
+
 public class HomeFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -60,9 +65,29 @@ public class HomeFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
         ((NavigationDrawer)getActivity()).showFloatingActionButton();
-
     }
+    /*
+    // Create new fragment and transaction
+    Fragment newFragment = new RecommendedRoutesFragment();
+    FragmentTransaction transaction = getFragmentManager().beginTransaction();
 
+    // Replace whatever is in the fragment_container view with this fragment,
+    // and add the transaction to the back stack
+    transaction.replace(R.id.fragment_container, newFragment);
+    transaction.addToBackStack(null);
+
+    // Commit the transaction
+    transaction.commit();
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+        setContentView(R.layout.activity_main);
+*/
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
