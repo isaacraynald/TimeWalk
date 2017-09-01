@@ -148,7 +148,7 @@ public class NavigationDrawer extends AppCompatActivity
 
             } else if (id == R.id.nav_customized) {
                 fragmentClass = CustomizedRoutesFragment.class;
-                title = "customized";
+                title = "Customized";
 
             } else if (id == R.id.nav_spots) {
                 fragmentClass = SpotsFragment.class;
