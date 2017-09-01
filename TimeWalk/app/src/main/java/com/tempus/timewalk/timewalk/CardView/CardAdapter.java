@@ -1,7 +1,7 @@
 package com.tempus.timewalk.timewalk.CardView;
 
 import android.content.Context;
-import android.media.Image;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,9 +9,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.tempus.timewalk.timewalk.Activity.RecommendedRoutesMaps;
+import com.tempus.timewalk.timewalk.Models.DataModel;
 import com.tempus.timewalk.timewalk.R;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -56,8 +56,18 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyViewHolder> 
         holder.details.setText(dataModel.getDetail());
         holder.description.setText(dataModel.getDescription());
         holder.images.setImageResource(dataModel.getImages());
+        holder.images.setOnClickListener(clickListener);
 
     }
+    View.OnClickListener clickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(context, RecommendedRoutesMaps.class);
+            context.startActivity(intent);
+
+
+        }
+    };
 
     @Override
     public int getItemCount() {

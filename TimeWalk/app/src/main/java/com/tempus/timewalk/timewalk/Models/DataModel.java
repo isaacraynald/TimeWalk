@@ -1,4 +1,4 @@
-package com.tempus.timewalk.timewalk.CardView;
+package com.tempus.timewalk.timewalk.Models;
 
 /**
  * Created by Isaac on 23/8/17.
