@@ -2,7 +2,9 @@ package com.tempus.timewalk.timewalk.Activity;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -29,16 +31,37 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
+import com.tempus.timewalk.timewalk.Classes.Directions;
+import com.tempus.timewalk.timewalk.Classes.DirectionListener;
+import com.tempus.timewalk.timewalk.Models.Points;
+import com.tempus.timewalk.timewalk.Models.Routes;
 import com.tempus.timewalk.timewalk.R;
 
-public class RecommendedRoutesMaps extends FragmentActivity implements LocationListener, OnMapReadyCallback, GoogleMap.OnMapClickListener, GoogleMap.InfoWindowAdapter, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
+
+public class RecommendedRoutesMaps extends FragmentActivity implements
+        LocationListener,
+        OnMapReadyCallback,
+        DirectionListener,
+        GoogleMap.OnMapClickListener,
+        GoogleMap.InfoWindowAdapter,
+        GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener {
 
     private GoogleMap mMap;
     private LatLng latLng;
+    private List<Marker> originMarkers = new ArrayList<>();
+    private List<Marker> destinationMarkers = new ArrayList<>();
+    private List<Polyline> polylinePaths = new ArrayList<>();
     private static final String TAG = RecommendedRoutesMaps.class.getSimpleName();
 
     GoogleApiClient mGoogleApiClient;
     LocationRequest mLocationRequest;
+    LocationManager locationManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +71,7 @@ public class RecommendedRoutesMaps extends FragmentActivity implements LocationL
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        sendRequestAPI();
     }
 
 
@@ -85,10 +109,41 @@ public class RecommendedRoutesMaps extends FragmentActivity implements LocationL
         mGoogleApiClient.connect();
 
         // Add a marker in Sydney and move the camera
-        /**
-         LatLng sydney = new LatLng(-34, 151);
-         mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney)); */
+
+        LatLng sydney = new LatLng(-27.499374,153.015067);
+        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+        //mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+    }
+
+    private void sendRequestAPI() {
+
+        //String latitude = Double.toString(lastLocation.getLatitude());
+        //String longitude = Double.toString(lastLocation.getLongitude());
+        //String origin = latitude + ","+ longitude;
+        /*
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        double org1 = location.getLatitude();
+        double org2 = location.getLongitude();
+        String origin = String.valueOf(org1) + "," + String.valueOf(org2); */
+        String origin = "-27.499374,153.015067";
+        String destination = "-27.494721,153.014262";
+        String wayPoints = "-27.498172, 153.013585";
+        try {
+            new Directions(this, origin, destination, wayPoints).execute();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
     }
 
     protected synchronized void buildGoogleApiClient() {
@@ -158,6 +213,50 @@ public class RecommendedRoutesMaps extends FragmentActivity implements LocationL
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
+
+    @Override
+    public void onDirectionStart() {
+        if (originMarkers != null) {
+            for (Marker marker : originMarkers) {
+                marker.remove();
+            }
+        }
+
+        if (destinationMarkers != null) {
+            for (Marker marker : destinationMarkers) {
+                marker.remove();
+            }
+        }
+
+        if (polylinePaths != null) {
+            for (Polyline polyline:polylinePaths ) {
+                polyline.remove();
+            }
+        }
+
+    }
+
+    @Override
+    public void onDirectionSuccess(List<Routes> routes, List<Points> point) {
+        for (Routes route: routes ){
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(route.startLocation, 16));
+            originMarkers.add(mMap.addMarker(new MarkerOptions().title(route.startAddress)
+                    .position(route.startLocation)));
+            destinationMarkers.add(mMap.addMarker(new MarkerOptions().title(route.endAddress)
+                    .position(route.endLocation)));
+        }
+        for (Points points:point){
+            PolylineOptions polyLineOptions = new PolylineOptions().geodesic(true).color(Color.BLUE
+            ).width(15);
+
+            for (int i = 0; i < points.points.size(); i++)
+                polyLineOptions.add(points.points.get(i));
+
+            polylinePaths.add(mMap.addPolyline(polyLineOptions));
+
+        }
 
     }
 }
