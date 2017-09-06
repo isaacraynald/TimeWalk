@@ -1,7 +1,6 @@
 package com.tempus.timewalk.timewalk.Classes;
 
 import com.tempus.timewalk.timewalk.Models.Points;
-import com.tempus.timewalk.timewalk.Models.Routes;
 
 import java.util.List;
 
@@ -12,5 +11,5 @@ import java.util.List;
 public interface DirectionListener {
     void onDirectionStart();
 
-    void onDirectionSuccess(List<Routes> route, List<Points> points);
+    void onDirectionSuccess(List<Points> points);
 }

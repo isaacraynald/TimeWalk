@@ -1,9 +1,11 @@
 package com.tempus.timewalk.timewalk.GalleryView;
 
 import android.content.Context;
-import android.content.res.Resources;
+<<<<<<< HEAD
+
+=======
+>>>>>>> 4a46611... delete floating button, spots page
 import android.support.v4.view.PagerAdapter;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

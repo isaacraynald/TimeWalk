@@ -70,7 +70,6 @@ public class LocationFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        ((NavigationDrawer)getActivity()).hideFloatingActionButton();
     }
 
     @Override
@@ -82,6 +81,8 @@ public class LocationFragment extends Fragment {
 
         viewPager = (ViewPager) view.findViewById(R.id.view_pager);
         sAdapter = new SliderAdapter(this.getActivity());
+
+
 
         viewPager.setAdapter(sAdapter);
         return view;

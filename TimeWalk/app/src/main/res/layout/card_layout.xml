@@ -20,7 +20,7 @@
         android:layout_weight="1.78">
 
         <ImageView
-            android:id="@+id/daftar_icon"
+            android:id="@+id/icon_images"
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:adjustViewBounds="true"

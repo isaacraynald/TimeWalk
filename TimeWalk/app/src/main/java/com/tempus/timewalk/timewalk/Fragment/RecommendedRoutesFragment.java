@@ -72,7 +72,8 @@ public class RecommendedRoutesFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        ((NavigationDrawer)getActivity()).hideFloatingActionButton();
+        ((NavigationDrawer)getActivity()).changeDrawerItem(R.id.nav_recommended);
+        //((NavigationDrawer)getActivity()).hideFloatingActionButton();
 
     }
 
@@ -82,6 +83,8 @@ public class RecommendedRoutesFragment extends Fragment {
         // Inflate the layout for this fragment
         super.getActivity();
         View view = inflater.inflate(R.layout.fragment_recommended_routes, container, false);
+
+        getActivity().setTitle("Recommended");
 
         cardList = new ArrayList<>();
         cardAdapter = new CardAdapter(getActivity(), cardList);

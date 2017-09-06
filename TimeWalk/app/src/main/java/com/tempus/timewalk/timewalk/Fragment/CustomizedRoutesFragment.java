@@ -60,14 +60,17 @@ public class CustomizedRoutesFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        ((NavigationDrawer)getActivity()).hideFloatingActionButton();
+        ((NavigationDrawer)getActivity()).changeDrawerItem(R.id.nav_customized);
+        //((NavigationDrawer)getActivity()).hideFloatingActionButton();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_customized_routes, container, false);
+        View view = inflater.inflate(R.layout.fragment_customized_routes, container, false);
+        getActivity().setTitle("Customized");
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

@@ -1,13 +1,15 @@
 package com.tempus.timewalk.timewalk.Fragment;
 
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
+import android.widget.ImageButton;
 
 import com.tempus.timewalk.timewalk.Activity.NavigationDrawer;
 import com.tempus.timewalk.timewalk.R;
@@ -29,10 +31,13 @@ public class HomeFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    FragmentManager fragmentManager;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    NavigationView navigationView;
 
     private OnFragmentInteractionListener mListener;
 
@@ -65,7 +70,8 @@ public class HomeFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        ((NavigationDrawer)getActivity()).showFloatingActionButton();
+        //((NavigationDrawer)getActivity()).showFloatingActionButton();
+        ((NavigationDrawer)getActivity()).changeDrawerItem(R.id.nav_home);
     }
     /*
     // Create new fragment and transaction
@@ -93,7 +99,30 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
+        getActivity().setTitle("Home Page");
+        ImageButton recommendedButton = (ImageButton)view.findViewById(R.id.recommendedButton);
+        ImageButton customizeButton = (ImageButton)view.findViewById(R.id.customizeButton);
+        final RecommendedRoutesFragment recommendedRoutesFragment = new RecommendedRoutesFragment();
+        final CustomizedRoutesFragment customizedRoutesFragment = new CustomizedRoutesFragment();
+        fragmentManager = getFragmentManager();
+        recommendedButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fragmentManager.beginTransaction().replace(R.id.content_home, recommendedRoutesFragment,
+                        recommendedRoutesFragment.getTag()).addToBackStack("a").commit();
+
+            }
+        });
+        customizeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fragmentManager.beginTransaction().replace(R.id.content_home, customizedRoutesFragment,
+                        customizedRoutesFragment.getTag()).addToBackStack("a").commit();
+            }
+        });
+
+        return view;
 
     }
 

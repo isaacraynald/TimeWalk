@@ -5,7 +5,6 @@ import android.os.AsyncTask;
 import com.google.android.gms.maps.model.LatLng;
 import com.tempus.timewalk.timewalk.AppConfig;
 import com.tempus.timewalk.timewalk.Models.Points;
-import com.tempus.timewalk.timewalk.Models.Routes;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -88,35 +87,19 @@ public class Directions {
         if (str ==null){
             return;
         }
-        List<Routes> routes = new ArrayList<>();
         List<Points> points = new ArrayList<>();
         JSONObject jsonData = new JSONObject(str);
         JSONArray jsonRoutes = jsonData.getJSONArray("routes");
         for (int i = 0; i < jsonRoutes.length(); i++){
-            Routes route = new Routes();
             Points point = new Points();
             JSONObject jsonRoute = jsonRoutes.getJSONObject(i);
 
             JSONObject overviewPolylineJson = jsonRoute.getJSONObject("overview_polyline");
-            JSONArray jsonLegs = jsonRoute.getJSONArray("legs");
-            for(int j = 0;j < jsonLegs.length();j++){
-                JSONObject jsonLeg = jsonLegs.getJSONObject(j);
-                JSONObject jsonStartLocation = jsonLeg.getJSONObject("start_location");
-                JSONObject jsonEndLocation = jsonLeg.getJSONObject("end_location");
-
-                route.startAddress = jsonLeg.getString("start_address");
-                route.endAddress = jsonLeg.getString("end_address");
-                route.startLocation = new LatLng(jsonStartLocation.getDouble("lat"),
-                        jsonStartLocation.getDouble("lng"));
-                route.endLocation = new LatLng(jsonEndLocation.getDouble("lat"),
-                        jsonEndLocation.getDouble("lng"));
-                routes.add(route);
-            }
             point.points= decodePolyLine(overviewPolylineJson.getString("points"));
             points.add(point);
 
         }
-        directionListener.onDirectionSuccess(routes, points);
+        directionListener.onDirectionSuccess(points);
     }
 
     private List<LatLng> decodePolyLine(String points) {

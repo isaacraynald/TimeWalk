@@ -30,9 +30,7 @@ public class NavigationDrawer extends AppCompatActivity
     FragmentManager fragmentManager;
     FloatingActionButton fab;
     Toolbar toolbar;
-    String title = "Home Page";
-
-    // This will be the main activity that is loaded first on app startup
+    NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,32 +38,38 @@ public class NavigationDrawer extends AppCompatActivity
         setContentView(R.layout.activity_navigation_drawer);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(title);
 
-        fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        //fab = (FloatingActionButton) findViewById(R.id.fab);
+        //fab.setOnClickListener(new View.OnClickListener() {
 
+           // @Override
+            //public void onClick(View view) {
+                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                      //  .setAction("Action", null).show();
+            //}
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         HomeFragment homeFragment = new HomeFragment();
+        RecommendedRoutesFragment recommendedRoutesFragment = new RecommendedRoutesFragment();
         fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.content_home, homeFragment,
-                homeFragment.getTag()).commit();
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        if(getIntent().getIntExtra("fragment",0) == 1){
+            fragmentManager.beginTransaction().replace(R.id.content_home, homeFragment,
+                    homeFragment.getTag()).commit();
+            fragmentManager.beginTransaction().replace(R.id.content_home, recommendedRoutesFragment,
+                    recommendedRoutesFragment.getTag()).addToBackStack("a").commit();
+        }
+        else {
+            fragmentManager.beginTransaction().replace(R.id.content_home, homeFragment,
+                    homeFragment.getTag()).commit();
+        }
+            ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                    this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
 
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        navigationView.getMenu().getItem(0).setChecked(true);
 
     }
 
@@ -74,20 +78,22 @@ public class NavigationDrawer extends AppCompatActivity
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         HomeFragment homeFragment = new HomeFragment();
-        fragmentManager = getSupportFragmentManager();
+        navigationView.setNavigationItemSelectedListener(this);
+        changeDrawerItem(R.id.nav_home);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        }else if(fragmentManager.getBackStackEntryCount() > 1){
+        }else if(fragmentManager.getBackStackEntryCount() > 1) {
             fragmentManager.popBackStack(fragmentManager.getBackStackEntryAt(0).getId(),
                     fragmentManager.POP_BACK_STACK_INCLUSIVE);
-            getSupportActionBar().setTitle(title);
             fragmentManager.beginTransaction().replace(R.id.content_home, homeFragment,
                     homeFragment.getTag()).commit();
-
-
         } else {
             super.onBackPressed();
         }
+    }
+
+    public void changeDrawerItem(int position){
+        navigationView.setCheckedItem(position);
     }
 
 
@@ -112,7 +118,7 @@ public class NavigationDrawer extends AppCompatActivity
 
         return super.onOptionsItemSelected(item);
     }
-
+    /**
     public void showFloatingActionButton() {
         fab.show();
     };
@@ -120,6 +126,7 @@ public class NavigationDrawer extends AppCompatActivity
     public void hideFloatingActionButton() {
         fab.hide();
     };
+     **/
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -132,49 +139,44 @@ public class NavigationDrawer extends AppCompatActivity
 
         if (id == R.id.nav_home) {
             fragmentClass = HomeFragment.class;
-            fragmentManager.popBackStack(fragmentManager.getBackStackEntryAt(0).getId(),
-                    fragmentManager.POP_BACK_STACK_INCLUSIVE);
             try {
                 fragment = (Fragment) fragmentClass.newInstance();
+                if(fragmentManager.getBackStackEntryCount() > 1) {
+                    fragmentManager.popBackStack(fragmentManager.getBackStackEntryAt(0).getId(),
+                            fragmentManager.POP_BACK_STACK_INCLUSIVE);
+
+                    fragmentManager.beginTransaction().replace(R.id.content_home, fragment,
+                            fragment.getTag()).commit();}
+                else {
+                    fragmentManager.beginTransaction().replace(R.id.content_home, fragment,
+                            fragment.getTag()).commit();
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            title = "Home Page";
-            fragmentManager.beginTransaction().replace(R.id.content_home, fragment,
-                    fragment.getTag()).commit();
-
         } else {
             if (id == R.id.nav_recommended) {
                 fragmentClass = RecommendedRoutesFragment.class;
-                title = "Recommended";
 
             } else if (id == R.id.nav_customized) {
                 fragmentClass = CustomizedRoutesFragment.class;
-                title = "Customized";
 
             } else if (id == R.id.nav_spots) {
                 fragmentClass = SpotsFragment.class;
-                title = "Spots";
 
             } else if (id == R.id.nav_favourites) {
                 fragmentClass = FavouritesFragment.class;
-                title = "Favourites";
-
-            } else if (id == R.id.nav_marked) {
-                fragmentClass = LocationFragment.class;
-                title = "Marked Location";
             }
 
             try {
                 fragment = (Fragment) fragmentClass.newInstance();
+                fragmentManager.beginTransaction().replace(R.id.content_home, fragment,
+                        fragment.getTag()).addToBackStack("a").commit();
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            fragmentManager.beginTransaction().replace(R.id.content_home, fragment,
-                    fragment.getTag()).addToBackStack("a").commit();
         }
 
-        getSupportActionBar().setTitle(title);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

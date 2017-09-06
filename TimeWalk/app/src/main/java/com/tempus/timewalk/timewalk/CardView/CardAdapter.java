@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.tempus.timewalk.timewalk.Activity.RecommendedRoutesMaps;
+import com.tempus.timewalk.timewalk.Activity.MapActivity;
 import com.tempus.timewalk.timewalk.Models.DataModel;
 import com.tempus.timewalk.timewalk.R;
 
@@ -23,13 +23,13 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyViewHolder> 
     private Context context;
     private List<DataModel> cardList;
 
-    public class MyViewHolder extends RecyclerView.ViewHolder{
+    public static class MyViewHolder extends RecyclerView.ViewHolder{
         public TextView venue, details, description;
         public ImageView images;
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            images = (ImageView)itemView.findViewById(R.id.daftar_icon);
+            images = (ImageView)itemView.findViewById(R.id.icon_images);
             venue = (TextView) itemView.findViewById(R.id.title_content);
             details = (TextView) itemView.findViewById(R.id.pages);
             description = (TextView) itemView.findViewById(R.id.description);
@@ -51,25 +51,22 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyViewHolder> 
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        DataModel dataModel = cardList.get(position);
+        final DataModel dataModel = cardList.get(position);
         holder.venue.setText(dataModel.getVenue());
         holder.details.setText(dataModel.getDetail());
         holder.description.setText(dataModel.getDescription());
         holder.images.setImageResource(dataModel.getImages());
-        holder.images.setOnClickListener(clickListener);
+        holder.images.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, MapActivity.class);
+                intent.putExtra("places", dataModel.getVenue());
+                context.startActivity(intent);
+            }
+        });
 
     }
-    View.OnClickListener clickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            Intent intent = new Intent(context, RecommendedRoutesMaps.class);
-            context.startActivity(intent);
 
-
-        }
-    };
-
-    @Override
     public int getItemCount() {
         return cardList.size();
     }
