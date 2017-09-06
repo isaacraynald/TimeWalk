@@ -4,11 +4,18 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import com.tempus.timewalk.timewalk.Activity.NavigationDrawer;
 
+import com.tempus.timewalk.timewalk.GalleryView.SliderAdapter;
+import android.content.Context;
+import android.support.v4.view.PagerAdapter;
 import com.tempus.timewalk.timewalk.R;
+
+import static com.tempus.timewalk.timewalk.R.layout.fragment_location;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -19,6 +26,10 @@ import com.tempus.timewalk.timewalk.R;
  * create an instance of this fragment.
  */
 public class LocationFragment extends Fragment {
+
+    SliderAdapter sAdapter;
+    ViewPager viewPager;
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -59,13 +70,21 @@ public class LocationFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        ((NavigationDrawer)getActivity()).hideFloatingActionButton();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_location, container, false);
+        super.getActivity();
+        View view = inflater.inflate(R.layout.fragment_location, container, false);
+
+        viewPager = (ViewPager) view.findViewById(R.id.view_pager);
+        sAdapter = new SliderAdapter(this.getActivity());
+
+        viewPager.setAdapter(sAdapter);
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -74,7 +93,7 @@ public class LocationFragment extends Fragment {
             mListener.onFragmentInteraction(uri);
         }
     }
-
+    /*
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -84,7 +103,7 @@ public class LocationFragment extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
-    }
+    }*/
 
     @Override
     public void onDetach() {

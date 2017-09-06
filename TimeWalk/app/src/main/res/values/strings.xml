@@ -10,4 +10,11 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_recommended_routes_maps">Map</string>
+    <string name="string_image_caption">image caption</string>
+
+    <string name="venue_name">Cavill Avenue</string>
+    <string name="location_desc">Cavill Avenue is a street and a pedestrian mall in Surfers Paradise, Gold Coast, Queensland, Australia. It is in the heart of the Surfers Paradise shopping and entertainment district.</string>
+    <string name="location_caption1">Image 1</string>
+    <string name="location_caption2">Image 2</string>
+    <string name="location_caption3">Image 3</string>
 </resources>
