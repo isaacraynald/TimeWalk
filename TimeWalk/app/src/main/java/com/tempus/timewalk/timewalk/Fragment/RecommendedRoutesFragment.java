@@ -100,7 +100,9 @@ public class RecommendedRoutesFragment extends Fragment {
         String[] title = new String[]{"Family Walk", "Retro Tour", "Sports Tour"};
         String[] details = new String[]{"30-40m, 5 Destination", "40-50m, 6 Destination",
                 "50-70m,4 Destination"};
-        String[] description = new String[]{"asasakfb","aoh oYEA H", "osi qo qasdug"};
+        String[] description = new String[]{"Have some quality time with your family on this great, " +
+                "family friendly route","Have you ever wondered what Brisbane looked like decades ago? " ,
+                "Big fan of sports and cars? This route is the one for you!"};
         DataModel d;
 
         for(int i = 0; i < title.length; i++){
