@@ -20,14 +20,12 @@ import com.tempus.timewalk.timewalk.R;
 public class SliderAdapter extends PagerAdapter{
 
     private Context ctx;
-    private int[] locationImg;
+    private int[] locationImg = {R.drawable.location_image01, R.drawable.location_image02, R.drawable.location_image03};
     private String[] captionList = {"Sea Breeze, Taken on January 12, 1961", "Taken on January 29, 1963", "Taken in August 1960"};
     private LayoutInflater inflater;
 
-    public SliderAdapter(Context ctx, int[] locIMG, String[] capList){
+    public SliderAdapter(Context ctx){
         this.ctx = ctx;
-        locationImg = locIMG;
-        capList = captionList;
     }
 
     @Override

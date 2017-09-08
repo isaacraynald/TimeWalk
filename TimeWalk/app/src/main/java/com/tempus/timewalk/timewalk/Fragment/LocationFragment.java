@@ -35,9 +35,6 @@ public class LocationFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    private int[] locationImg = {R.drawable.location_image01, R.drawable.location_image02, R.drawable.location_image03};
-    private String[] captionList = {"Sea Breeze, Taken on January 12, 1961", "Taken on January 29, 1963", "Taken in August 1960"};
-
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -84,7 +81,7 @@ public class LocationFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_location, container, false);
 
         viewPager = (ViewPager) view.findViewById(R.id.view_pager);
-        sAdapter = new SliderAdapter(this.getActivity(), locationImg, captionList);
+        sAdapter = new SliderAdapter(this.getActivity());
 
         viewPager.setAdapter(sAdapter);
         return view;
