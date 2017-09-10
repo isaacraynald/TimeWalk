@@ -31,6 +31,8 @@ public class NavigationDrawer extends AppCompatActivity
     Toolbar toolbar;
     String title = "Home Page";
 
+    // This will be the main activity that is loaded first on app startup
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,7 +79,6 @@ public class NavigationDrawer extends AppCompatActivity
         }else if(fragmentManager.getBackStackEntryCount() > 1){
             fragmentManager.popBackStack(fragmentManager.getBackStackEntryAt(0).getId(),
                     fragmentManager.POP_BACK_STACK_INCLUSIVE);
-            title = "Home Page";
             getSupportActionBar().setTitle(title);
             fragmentManager.beginTransaction().replace(R.id.content_home, homeFragment,
                     homeFragment.getTag()).commit();
