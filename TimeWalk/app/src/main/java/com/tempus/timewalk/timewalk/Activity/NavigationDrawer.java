@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import com.tempus.timewalk.timewalk.Fragment.CustomizedRoutesFragment;
 import com.tempus.timewalk.timewalk.Fragment.FavouritesFragment;
 import com.tempus.timewalk.timewalk.Fragment.HomeFragment;
+import com.tempus.timewalk.timewalk.Fragment.LocationFragment;
 import com.tempus.timewalk.timewalk.Fragment.RecommendedRoutesFragment;
 import com.tempus.timewalk.timewalk.Fragment.SpotsFragment;
 import com.tempus.timewalk.timewalk.R;
@@ -160,8 +161,10 @@ public class NavigationDrawer extends AppCompatActivity
                 title = "Favourites";
 
             } else if (id == R.id.nav_marked) {
-
+                fragmentClass = LocationFragment.class;
+                title = "Marked Location";
             }
+
             try {
                 fragment = (Fragment) fragmentClass.newInstance();
             } catch (Exception e) {
