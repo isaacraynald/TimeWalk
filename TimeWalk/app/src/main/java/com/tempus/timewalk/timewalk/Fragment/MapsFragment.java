@@ -348,7 +348,14 @@ public class MapsFragment extends Fragment implements LocationListener,
                 .build();
     }
 
-    
+    /**
+     * Connect to the map API and send request to get back the routing based on current location
+     * and list of destinations.
+     *
+     * @param lat current location's latitude
+     * @param lng current location's longtitude
+     * @param places all the profiled destinations
+     */
     private void sendRequestAPI(Double lat,Double lng, String places) {
 
         String origin = String.valueOf(lat) + "," + String.valueOf(lng);
@@ -414,6 +421,9 @@ public class MapsFragment extends Fragment implements LocationListener,
         }
     };
 
+    /**
+     * Clear the old markers data (if exsists) off the map
+     */
     @Override
     public void onDirectionStart() {
         if (originMarkers != null) {
@@ -443,6 +453,14 @@ public class MapsFragment extends Fragment implements LocationListener,
 
     }
 
+    /**
+     * Callback for the result from requesting permissions.
+     *
+     * @param requestCode The request code passed in requestPermissions.
+     * @param permissions The requested permissions.
+     * @param grantResults The grant results for the corresponding permissions which is either
+     *                     PERMISSION_GRANTED or PERMISSION_DENIED.
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -462,6 +480,11 @@ public class MapsFragment extends Fragment implements LocationListener,
         }
     }
 
+    /**
+     * If routing is successful and provided in the returned data, initialize route on the map.
+     *
+     * @param point List of all the points on the tour
+     */
     @Override
     public void onDirectionSuccess(List<Points> point) {
         for (Points points:point){

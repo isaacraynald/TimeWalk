@@ -12,11 +12,15 @@ import android.widget.TextView;
 import com.tempus.timewalk.timewalk.R;
 
 /**
+ * Custom Adapter to create image sliding gallery, extends PageAdapter
  * Created by julientran on 4/9/17.
  */
 
 public class SliderAdapter extends PagerAdapter{
 
+    /**
+     * Variables
+     */
     private Context ctx;
     private int[] locationImg = {R.drawable.location_image01, R.drawable.location_image02, R.drawable.location_image03};
     private String[] captionList = {"Sea Breeze, Taken on January 12, 1961", "Taken on January 29, 1963", "Taken in August 1960"};
@@ -26,16 +30,29 @@ public class SliderAdapter extends PagerAdapter{
         this.ctx = ctx;
     }
 
+    /**
+     * Get the number of images within a gallery
+     */
     @Override
     public int getCount() {
         return locationImg.length;
     }
 
+    /**
+     * Determines whether a page View is associated with a specific key object as returned by instantiateItem
+     * @param view Page View to check for association with object
+     * @param object Object to check for association with view
+     */
     @Override
     public boolean isViewFromObject(View view, Object object) {
         return (view==(LinearLayout)object);
     }
 
+    /**
+     * Create the page for the given position and set the image resources
+     * @param container The parents view to set gallery view on
+     * @param position The page position to be instantiated.
+     */
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         inflater = (LayoutInflater)ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -48,6 +65,12 @@ public class SliderAdapter extends PagerAdapter{
         return sliderView;
     }
 
+    /**
+     * Remove a page for the given position
+     * @param container The parents view to destroy the gallery view from
+     * @param position The page position to be removed.
+     * @param object The same object that was returned by instantiateItem
+     */
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
         container.removeView((LinearLayout)object);
