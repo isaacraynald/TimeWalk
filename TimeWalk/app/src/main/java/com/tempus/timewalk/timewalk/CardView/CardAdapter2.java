@@ -18,13 +18,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Destination card for each landmark which is dislayed below the map on Map Fragment
  * Created by Isaac on 7/9/17.
  */
 
 public class CardAdapter2 extends RecyclerView.Adapter<CardAdapter2.MyViewHolder>{
+
+    /**
+     * Variables
+     */
     private Context context;
     private String[] cardList2;
 
+    /**
+     * Values for card contents
+     */
     public class MyViewHolder extends RecyclerView.ViewHolder{
         public TextView venueName;
         public ImageButton images;
@@ -37,11 +45,24 @@ public class CardAdapter2 extends RecyclerView.Adapter<CardAdapter2.MyViewHolder
         }
 
     }
+
+    /**
+     * Constructor method to create a card adapter
+     * @param context set context
+     * @param cardList List of cards of all profiled landmarks in a tour
+     */
     public CardAdapter2(Context context, String[] cardList){
         this.context = context;
         this.cardList2 = cardList;
     }
 
+    /**
+     * Create new ViewHolder to display items of the card adapter
+     * @param parent get the ViewGroup to add the card view onto it
+     *               after it is bound to an adapter position
+     * @param viewType The view type of the new View
+     * @return MyViewHolder A new ViewHolder that holds a Card View of the given view type.
+     */
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(
@@ -49,6 +70,12 @@ public class CardAdapter2 extends RecyclerView.Adapter<CardAdapter2.MyViewHolder
         return new CardAdapter2.MyViewHolder(view);
     }
 
+    /**
+     * Create new ViewHolder to display items of the card adapter
+     * @param holder The ViewHolder which should be updated to represent the contents of the item at
+     *              the given position in the data set.
+     * @param position The position of the item within the adapter's data set
+     */
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         holder.venueName.setText(cardList2[position]);
@@ -62,11 +89,12 @@ public class CardAdapter2 extends RecyclerView.Adapter<CardAdapter2.MyViewHolder
 
             }
         });
-
-
     }
 
-
+    /**
+     * Get the total number of profiled cards in the cardList
+     * @return number of cards item.
+     */
     @Override
     public int getItemCount() {
        return cardList2.length;

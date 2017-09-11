@@ -14,33 +14,29 @@ import android.widget.ImageButton;
 import com.tempus.timewalk.timewalk.Activity.NavigationDrawer;
 import com.tempus.timewalk.timewalk.R;
 
-
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link HomeFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link HomeFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * A {@link Fragment} subclass that display the home screen.
  */
-
-
-
 public class HomeFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    FragmentManager fragmentManager;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
+    /**
+     * Variables
+     */
+    FragmentManager fragmentManager;
     NavigationView navigationView;
-
     private OnFragmentInteractionListener mListener;
 
+    /**
+     * Empty Constructor
+     */
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -95,6 +91,16 @@ public class HomeFragment extends Fragment {
 
         setContentView(R.layout.activity_main);
 */
+    /**
+     * Called to have the fragment instantiate its user interface view.
+     *
+     * @param inflater The LayoutInflater object that can be used to inflate any views in the
+     *                 fragment.
+     * @param container If non-null, this is the parent view that the fragment's UI should be
+     *                  attached to.
+     * @param savedInstanceState a Bundle object containing the activity's previously saved state.
+     * @return A new instance of fragment HomeFragment.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

@@ -57,12 +57,7 @@ import java.util.Locale;
 import java.util.regex.Pattern;
 
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link MapsFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link MapsFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * A {@link Fragment} subclass that display the map screen.
  */
 public class MapsFragment extends Fragment implements LocationListener,
         OnMapReadyCallback,
@@ -72,7 +67,11 @@ public class MapsFragment extends Fragment implements LocationListener,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener{
     // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
+    /**
+     * Variables
+     * The fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+     */
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private GoogleMap mMap;
@@ -119,6 +118,11 @@ public class MapsFragment extends Fragment implements LocationListener,
         return fragment;
     }
 
+    /**
+     * Get string places upon instantiation from the RecommendedRoutesFragment
+     *
+     * @param savedInstanceState a Bundle object containing the activity's previously saved state.
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -129,6 +133,12 @@ public class MapsFragment extends Fragment implements LocationListener,
         places = getActivity().getIntent().getStringExtra("places");
     }
 
+    /**
+     * Create view upon initialisation.
+     *
+     * @param view The parents view to set on
+     * @param savedInstanceState a Bundle object containing the activity's previously saved state.
+     */
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -142,6 +152,13 @@ public class MapsFragment extends Fragment implements LocationListener,
         setListPlaces(view,places);
     }
 
+
+    /**
+     * Create and inject data into the display cards below the map.
+     *
+     * @param view The parents view to set on.
+     * @param places a Bundle object containing the activity's previously saved state.
+     */
     private void setListPlaces(View view, String places) {
         String[] name = new String[]{""};
         switch (places){
@@ -165,6 +182,16 @@ public class MapsFragment extends Fragment implements LocationListener,
 
     }
 
+    /**
+     * Called to have the fragment instantiate its user interface view.
+     *
+     * @param inflater The LayoutInflater object that can be used to inflate any views in the
+     *                 fragment.
+     * @param container If non-null, this is the parent view that the fragment's UI should be
+     *                  attached to.
+     * @param savedInstanceState a Bundle object containing the activity's previously saved state.
+     * @return A new instance of fragment HomeFragment.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -198,6 +225,14 @@ public class MapsFragment extends Fragment implements LocationListener,
         mListener = null;
     }
 
+    /**
+     * After calling connect(), this method will be invoked asynchronously when the connect request
+     * has successfully completed. After this callback, the application can make requests on other
+     * methods provided by the client and expect that no user intervention is required to call
+     * methods that use account and scopes provided to the client constructor.
+     *
+     * @param bundle Bundle of data provided to clients by Google Play services.
+     */
     @Override
     public void onConnected(@Nullable Bundle bundle) {
         Log.d(TAG, "onConnected!");
@@ -213,6 +248,11 @@ public class MapsFragment extends Fragment implements LocationListener,
 
     }
 
+    /**
+     * Called when the client is temporarily in a disconnected state.
+     *
+     * @param i The reason for the disconnection.
+     */
     @Override
     public void onConnectionSuspended(int i) {
 
@@ -223,6 +263,11 @@ public class MapsFragment extends Fragment implements LocationListener,
 
     }
 
+    /**
+     * Called when the location changed, find the current location and send the request.
+     *
+     * @param location The new location, as a Location object.
+     */
     @Override
     public void onLocationChanged(Location location) {
         latLng = new LatLng(location.getLatitude(), location.getLongitude());
@@ -257,6 +302,13 @@ public class MapsFragment extends Fragment implements LocationListener,
     public void onMapClick(LatLng latLng) {
 
     }
+
+    /**
+     * Called when the map is ready to be used.
+     *
+     * @param googleMap A non-null instance of a GoogleMap associated with the MapFragment or
+     *                  MapView that defines the callback.
+     */
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -284,6 +336,9 @@ public class MapsFragment extends Fragment implements LocationListener,
 
     }
 
+    /**
+     * Builder to configure a GoogleApiClient.
+     */
     private void buildGoogleApiClient() {
         Log.d(TAG, "buildGoogleApiClient");
         mGoogleApiClient = new GoogleApiClient.Builder(getContext())
@@ -293,6 +348,7 @@ public class MapsFragment extends Fragment implements LocationListener,
                 .build();
     }
 
+    
     private void sendRequestAPI(Double lat,Double lng, String places) {
 
         String origin = String.valueOf(lat) + "," + String.valueOf(lng);

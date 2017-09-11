@@ -22,15 +22,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * An immutable class representing the route with string variables representing its origin and last
+ * landmark within a tour, and any landmarks inbetween are represented in string format within the
+ * wayPoints string (split by " | ")
  * Created by Isaac on 5/9/17.
  */
 
 public class Directions {
+
+    /**
+     * Variables
+     */
     private DirectionListener directionListener;
     private String origin;
     private String destination;
     private String wayPoints;
 
+    /**
+     * Constructor method to create a card adapter
+     * @param directionListener set the DirectionListener interface
+     * @param origin First landmark of the tour
+     * @param destination Last landmark of the tour
+     * @param wayPoints Other landmarks inbetween origin and destination, split by " | "
+     */
     public Directions (DirectionListener directionListener, String origin, String destination, String wayPoints){
         this.origin = origin;
         this.destination = destination;
@@ -38,11 +52,21 @@ public class Directions {
         this.wayPoints = wayPoints;
     }
 
+    /**
+     * Send Url to map API to get data to construct the route in JSON format upon starting, parse
+     * the downloaded data into DownloadData() class.
+     * @throws UnsupportedEncodingException when Url can't be connected
+     */
     public void execute() throws UnsupportedEncodingException {
         directionListener.onDirectionStart();
         new DownloadData().execute(createUrl());
     }
 
+    /**
+     * Construct Url to get map routing based on the landmarks
+     * @return String representation of an url to connect with map API
+     * @throws UnsupportedEncodingException when Url can't be connected
+     */
     private String createUrl() throws UnsupportedEncodingException {
         String urlOrigin = URLEncoder.encode(origin, "utf-8");
         String urlDestination = URLEncoder.encode(destination, "utf-8");
@@ -52,6 +76,11 @@ public class Directions {
                 "&waypoints=" + urlWayPoints + "&mode=walking" + "&key=" +  AppConfig.API_KEY;
     }
 
+    /**
+     * A private immutable class to represent the downloaded map data get from Google Map API
+     * extend AsyncTask class
+     * @throws UnsupportedEncodingException when Url can't be connected
+     */
     private class DownloadData extends AsyncTask<String, Void, String>{
         @Override
         protected String doInBackground(String... params) {
@@ -83,6 +112,12 @@ public class Directions {
         }
     }
 
+    /**
+     * Parse the downloaded script into a list of points to use with onDirectionSuccess and get
+     * returned route for the map
+     * @param str String representation of the downloaded script
+     * @throws JSONException when JSON object is not found
+     */
     private void parseJson(String str) throws JSONException {
         if (str ==null){
             return;
@@ -102,6 +137,11 @@ public class Directions {
         directionListener.onDirectionSuccess(points);
     }
 
+    /**
+     * Decode the poly line into list of all coordinates
+     * @param points String representation of all the points
+     * @return List of the coordinates
+     */
     private List<LatLng> decodePolyLine(String points) {
         int length = points.length();
         int index = 0;

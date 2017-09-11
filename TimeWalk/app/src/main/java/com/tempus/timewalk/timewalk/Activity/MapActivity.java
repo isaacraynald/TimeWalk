@@ -12,9 +12,21 @@ import com.tempus.timewalk.timewalk.Fragment.LocationFragment;
 import com.tempus.timewalk.timewalk.Fragment.MapsFragment;
 import com.tempus.timewalk.timewalk.R;
 
+/**
+ * A {@Link Activity} subclass
+ * Acts as container for {@Link MapsFragment} and {@Link LocationFragment}
+ */
+
 public class MapActivity extends AppCompatActivity {
     private FragmentManager fragmentManager;
 
+    /**
+     * Use this to fires when the system first creates the activity
+     * Display Map Fragment upon starting up
+     *
+     * @param savedInstanceState a Bundle object containing the activity's previously saved state.
+     *
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +39,13 @@ public class MapActivity extends AppCompatActivity {
                 mapsFragment.getTag()).addToBackStack("map").commit();
     }
 
+    /**
+     * This hook is called whenever an item in your options menu is selected
+     *
+     * @param item The menu item that was selected.
+     * @return false to have the normal processing happen
+     *
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()){
@@ -50,6 +69,10 @@ public class MapActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Called when the activity has detected the user's press of the back key.
+     *
+     */
     @Override
     public void onBackPressed() {
         MapsFragment maps = new MapsFragment();

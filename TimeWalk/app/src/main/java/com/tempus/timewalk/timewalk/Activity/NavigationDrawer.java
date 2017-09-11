@@ -24,14 +24,29 @@ import com.tempus.timewalk.timewalk.Fragment.RecommendedRoutesFragment;
 import com.tempus.timewalk.timewalk.Fragment.SpotsFragment;
 import com.tempus.timewalk.timewalk.R;
 
+/**
+ * A {@Link Activity} subclass
+ * Display the side Drawer
+ */
+
 public class NavigationDrawer extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    /**
+     * Variables
+     */
     FragmentManager fragmentManager;
     FloatingActionButton fab;
     Toolbar toolbar;
     NavigationView navigationView;
 
+    /**
+     * Use this to fires when the system first creates the activity
+     * Display the Drawer upon clicking
+     *
+     * @param savedInstanceState a Bundle object containing the activity's previously saved state.
+     *
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +88,9 @@ public class NavigationDrawer extends AppCompatActivity
 
     }
 
+    /**
+     * Called when the activity has detected the user's press of the back key.
+     */
     @Override
     public void onBackPressed() {
 
@@ -92,10 +110,13 @@ public class NavigationDrawer extends AppCompatActivity
         }
     }
 
+    /**
+     * Highlight the selected item in the drawer.
+     *
+     */
     public void changeDrawerItem(int position){
         navigationView.setCheckedItem(position);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -104,6 +125,13 @@ public class NavigationDrawer extends AppCompatActivity
         return true;
     }
 
+    /**
+     * This hook is called whenever an item in your options menu is selected
+     *
+     * @param item The menu item that was selected.
+     * @return false to have the normal processing happen
+     *
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -128,6 +156,13 @@ public class NavigationDrawer extends AppCompatActivity
     };
      **/
 
+    /**
+     * Called when an item in the navigation menu is selected.
+     *
+     * @param item The menu item that was selected.
+     * @return true to display the item as the selected item
+     *
+     */
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {

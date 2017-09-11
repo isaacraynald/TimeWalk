@@ -10,14 +10,8 @@ import android.view.ViewGroup;
 import com.tempus.timewalk.timewalk.Activity.NavigationDrawer;
 import com.tempus.timewalk.timewalk.R;
 
-
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link FavouritesFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link FavouritesFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * A {@link Fragment} subclass that display the favorite screen.
  */
 public class FavouritesFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match

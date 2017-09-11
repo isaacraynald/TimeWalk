@@ -10,14 +10,9 @@ import android.view.ViewGroup;
 import com.tempus.timewalk.timewalk.Activity.NavigationDrawer;
 import com.tempus.timewalk.timewalk.R;
 
-
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link CustomizedRoutesFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link CustomizedRoutesFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * A {@link Fragment} subclass that display the customized route screen.
+ *
  */
 public class CustomizedRoutesFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
