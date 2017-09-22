@@ -68,8 +68,6 @@ public class NavigationDrawer extends AppCompatActivity
         RecommendedRoutesFragment recommendedRoutesFragment = new RecommendedRoutesFragment();
         fragmentManager = getSupportFragmentManager();
         if(getIntent().getIntExtra("fragment",0) == 1){
-            fragmentManager.beginTransaction().replace(R.id.content_home, homeFragment,
-                    homeFragment.getTag()).commit();
             fragmentManager.beginTransaction().replace(R.id.content_home, recommendedRoutesFragment,
                     recommendedRoutesFragment.getTag()).addToBackStack("a").commit();
         }
