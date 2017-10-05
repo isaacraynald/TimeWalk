@@ -13,7 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import android.widget.Button;
 
 import com.tempus.timewalk.timewalk.Activity.NavigationDrawer;
 import com.tempus.timewalk.timewalk.R;
@@ -77,11 +77,23 @@ public class CustomizedRoutesFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_customized_routes, container, false);
 
+        Button button = (Button) view.findViewById(R.id.get_route_bt);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String items = "";
+                for(String item:selectedItems){
+                    items += "-" + item + "\n";
+                }
+                Toast.makeText(getActivity(), "You have selected \n" + items,Toast.LENGTH_LONG).show();
+            }
+        });
+
         ListView chl = (ListView)view.findViewById(R.id.checkable_list);
 
         chl.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 
-        String[] items = {"Cavill Avenue","Story Bridge","Overlook Hotel"};
+        String[] items = {"Cavill Avenue","Florida Car-o-Tel Caravan Park","Nerang River","Gold Coast Highway","El Dorado Motel","Ski Garden","Overlook Hotel"};
 
         ArrayAdapter<String> adapter= new ArrayAdapter<String>(this.getActivity(),R.layout.row_layout, R.id.txt_lan, items);
 
@@ -111,6 +123,7 @@ public class CustomizedRoutesFragment extends Fragment {
         Toast.makeText(this.getActivity(), "You have selected \n" + items,Toast.LENGTH_LONG).show();
 
     }
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
