@@ -20,12 +20,8 @@ import java.util.List;
 
 
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link RecommendedRoutesFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link RecommendedRoutesFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * A {@link Fragment} subclass that display the recommended route screen.
+ *
  */
 public class RecommendedRoutesFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
@@ -37,6 +33,9 @@ public class RecommendedRoutesFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    /**
+     * Variables
+     */
     private OnFragmentInteractionListener mListener;
 
     private List<DataModel> cardList;
@@ -65,6 +64,11 @@ public class RecommendedRoutesFragment extends Fragment {
         return fragment;
     }
 
+    /**
+     * Get string places upon instantiation from the RecommendedRoutesFragment
+     *
+     * @param savedInstanceState a Bundle object containing the activity's previously saved state.
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,16 +76,29 @@ public class RecommendedRoutesFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        ((NavigationDrawer)getActivity()).hideFloatingActionButton();
+        ((NavigationDrawer)getActivity()).changeDrawerItem(R.id.nav_recommended);
+        //((NavigationDrawer)getActivity()).hideFloatingActionButton();
 
     }
 
+    /**
+     * Called to have the fragment instantiate its user interface view.
+     *
+     * @param inflater The LayoutInflater object that can be used to inflate any views in the
+     *                 fragment.
+     * @param container If non-null, this is the parent view that the fragment's UI should be
+     *                  attached to.
+     * @param savedInstanceState a Bundle object containing the activity's previously saved state.
+     * @return A new instance of fragment HomeFragment.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         super.getActivity();
         View view = inflater.inflate(R.layout.fragment_recommended_routes, container, false);
+
+        getActivity().setTitle("Recommended");
 
         cardList = new ArrayList<>();
         cardAdapter = new CardAdapter(getActivity(), cardList);
@@ -95,6 +112,9 @@ public class RecommendedRoutesFragment extends Fragment {
         return view;
     }
 
+    /**
+     * Prepare the contents for the tour cards display.
+     */
     private void prepareContent() {
         int[] images = new int[]{R.drawable.rfamily,R.drawable.rretro,R.drawable.rsport};
         String[] title = new String[]{"Family Walk", "Retro Tour", "Sports Tour"};

@@ -51,12 +51,10 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".Activity.RecommendedRoutesMaps"
-            android:label="@string/title_activity_recommended_routes_maps" />
-        <activity
             android:name=".Activity.CustomizedRoutesMaps"
             android:label="@string/title_activity_customized_routes_maps"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+
     </application>
 
 </manifest>

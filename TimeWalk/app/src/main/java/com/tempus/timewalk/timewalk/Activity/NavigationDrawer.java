@@ -24,71 +24,97 @@ import com.tempus.timewalk.timewalk.Fragment.RecommendedRoutesFragment;
 import com.tempus.timewalk.timewalk.Fragment.SpotsFragment;
 import com.tempus.timewalk.timewalk.R;
 
+/**
+ * A {@Link Activity} subclass
+ * Display the side Drawer
+ */
+
 public class NavigationDrawer extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    /**
+     * Variables
+     */
     FragmentManager fragmentManager;
     FloatingActionButton fab;
     Toolbar toolbar;
-    String title = "Home Page";
+    NavigationView navigationView;
 
+    /**
+     * Use this to fires when the system first creates the activity
+     * Display the Drawer upon clicking
+     *
+     * @param savedInstanceState a Bundle object containing the activity's previously saved state.
+     *
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation_drawer);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(title);
 
-        fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        //fab = (FloatingActionButton) findViewById(R.id.fab);
+        //fab.setOnClickListener(new View.OnClickListener() {
 
+           // @Override
+            //public void onClick(View view) {
+                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                      //  .setAction("Action", null).show();
+            //}
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         HomeFragment homeFragment = new HomeFragment();
+        RecommendedRoutesFragment recommendedRoutesFragment = new RecommendedRoutesFragment();
         fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.content_home, homeFragment,
-                homeFragment.getTag()).commit();
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        if(getIntent().getIntExtra("fragment",0) == 1){
+            fragmentManager.beginTransaction().replace(R.id.content_home, recommendedRoutesFragment,
+                    recommendedRoutesFragment.getTag()).addToBackStack("a").commit();
+        }
+        else {
+            fragmentManager.beginTransaction().replace(R.id.content_home, homeFragment,
+                    homeFragment.getTag()).commit();
+        }
+            ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                    this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
 
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        navigationView.getMenu().getItem(0).setChecked(true);
 
     }
 
+    /**
+     * Called when the activity has detected the user's press of the back key.
+     */
     @Override
     public void onBackPressed() {
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         HomeFragment homeFragment = new HomeFragment();
-        fragmentManager = getSupportFragmentManager();
+        navigationView.setNavigationItemSelectedListener(this);
+        changeDrawerItem(R.id.nav_home);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        }else if(fragmentManager.getBackStackEntryCount() > 1){
+        }else if(fragmentManager.getBackStackEntryCount() > 1) {
             fragmentManager.popBackStack(fragmentManager.getBackStackEntryAt(0).getId(),
                     fragmentManager.POP_BACK_STACK_INCLUSIVE);
-            title = "Home Page";
-            getSupportActionBar().setTitle(title);
             fragmentManager.beginTransaction().replace(R.id.content_home, homeFragment,
                     homeFragment.getTag()).commit();
-
-
         } else {
             super.onBackPressed();
         }
     }
 
+    /**
+     * Highlight the selected item in the drawer.
+     *
+     */
+    public void changeDrawerItem(int position){
+        navigationView.setCheckedItem(position);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -97,6 +123,13 @@ public class NavigationDrawer extends AppCompatActivity
         return true;
     }
 
+    /**
+     * This hook is called whenever an item in your options menu is selected
+     *
+     * @param item The menu item that was selected.
+     * @return false to have the normal processing happen
+     *
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -111,7 +144,7 @@ public class NavigationDrawer extends AppCompatActivity
 
         return super.onOptionsItemSelected(item);
     }
-
+    /**
     public void showFloatingActionButton() {
         fab.show();
     };
@@ -119,7 +152,15 @@ public class NavigationDrawer extends AppCompatActivity
     public void hideFloatingActionButton() {
         fab.hide();
     };
+     **/
 
+    /**
+     * Called when an item in the navigation menu is selected.
+     *
+     * @param item The menu item that was selected.
+     * @return true to display the item as the selected item
+     *
+     */
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -131,49 +172,44 @@ public class NavigationDrawer extends AppCompatActivity
 
         if (id == R.id.nav_home) {
             fragmentClass = HomeFragment.class;
-            fragmentManager.popBackStack(fragmentManager.getBackStackEntryAt(0).getId(),
-                    fragmentManager.POP_BACK_STACK_INCLUSIVE);
             try {
                 fragment = (Fragment) fragmentClass.newInstance();
+                if(fragmentManager.getBackStackEntryCount() > 1) {
+                    fragmentManager.popBackStack(fragmentManager.getBackStackEntryAt(0).getId(),
+                            fragmentManager.POP_BACK_STACK_INCLUSIVE);
+
+                    fragmentManager.beginTransaction().replace(R.id.content_home, fragment,
+                            fragment.getTag()).commit();}
+                else {
+                    fragmentManager.beginTransaction().replace(R.id.content_home, fragment,
+                            fragment.getTag()).commit();
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            title = "Home Page";
-            fragmentManager.beginTransaction().replace(R.id.content_home, fragment,
-                    fragment.getTag()).commit();
-
         } else {
             if (id == R.id.nav_recommended) {
                 fragmentClass = RecommendedRoutesFragment.class;
-                title = "Recommended";
 
             } else if (id == R.id.nav_customized) {
                 fragmentClass = CustomizedRoutesFragment.class;
-                title = "Customized";
 
             } else if (id == R.id.nav_spots) {
                 fragmentClass = SpotsFragment.class;
-                title = "Spots";
 
             } else if (id == R.id.nav_favourites) {
                 fragmentClass = FavouritesFragment.class;
-                title = "Favourites";
-
-            } else if (id == R.id.nav_marked) {
-                fragmentClass = LocationFragment.class;
-                title = "Marked Location";
             }
 
             try {
                 fragment = (Fragment) fragmentClass.newInstance();
+                fragmentManager.beginTransaction().replace(R.id.content_home, fragment,
+                        fragment.getTag()).addToBackStack("a").commit();
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            fragmentManager.beginTransaction().replace(R.id.content_home, fragment,
-                    fragment.getTag()).addToBackStack("a").commit();
         }
 
-        getSupportActionBar().setTitle(title);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

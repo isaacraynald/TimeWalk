@@ -18,14 +18,9 @@ import android.widget.Toast;
 import com.tempus.timewalk.timewalk.Activity.NavigationDrawer;
 import com.tempus.timewalk.timewalk.R;
 
-
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link CustomizedRoutesFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link CustomizedRoutesFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * A {@link Fragment} subclass that display the customized route screen.
+ *
  */
 public class CustomizedRoutesFragment extends Fragment {
 
@@ -71,8 +66,8 @@ public class CustomizedRoutesFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        ((NavigationDrawer)getActivity()).hideFloatingActionButton();
-
+        ((NavigationDrawer)getActivity()).changeDrawerItem(R.id.nav_customized);
+        //((NavigationDrawer)getActivity()).hideFloatingActionButton();
     }
 
     @Override
@@ -114,6 +109,7 @@ public class CustomizedRoutesFragment extends Fragment {
             items += "-" + item + "\n";
         }
         Toast.makeText(this.getActivity(), "You have selected \n" + items,Toast.LENGTH_LONG).show();
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event

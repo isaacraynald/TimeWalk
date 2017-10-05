@@ -1,58 +1,59 @@
 package com.tempus.timewalk.timewalk.CardView;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.tempus.timewalk.timewalk.Activity.MapActivity;
-import com.tempus.timewalk.timewalk.Models.DataModel;
+import com.tempus.timewalk.timewalk.Activity.NavigationDrawer;
+import com.tempus.timewalk.timewalk.Fragment.LocationFragment;
 import com.tempus.timewalk.timewalk.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Display card for each tour on the recommended route page
- * Created by Isaac on 23/8/17.
+ * Destination card for each landmark which is dislayed below the map on Map Fragment
+ * Created by Isaac on 7/9/17.
  */
 
-public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyViewHolder> {
+public class CardAdapter2 extends RecyclerView.Adapter<CardAdapter2.MyViewHolder>{
 
     /**
      * Variables
      */
     private Context context;
-    private List<DataModel> cardList;
+    private String[] cardList2;
 
     /**
      * Values for card contents
      */
-    public static class MyViewHolder extends RecyclerView.ViewHolder{
-        public TextView venue, details, description;
-        public ImageView images;
+    public class MyViewHolder extends RecyclerView.ViewHolder{
+        public TextView venueName;
+        public ImageButton images;
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            images = (ImageView)itemView.findViewById(R.id.icon_images);
-            venue = (TextView) itemView.findViewById(R.id.title_content);
-            details = (TextView) itemView.findViewById(R.id.pages);
-            description = (TextView) itemView.findViewById(R.id.description);
+            venueName = (TextView) itemView.findViewById(R.id.landmark_name);
+            images = (ImageButton) itemView.findViewById(R.id.information);
 
         }
+
     }
 
     /**
      * Constructor method to create a card adapter
      * @param context set context
-     * @param cardList List of cards of all profiled tours in the recommended route
+     * @param cardList List of cards of all profiled landmarks in a tour
      */
-    public CardAdapter(Context context, List cardList){
+    public CardAdapter2(Context context, String[] cardList){
         this.context = context;
-        this.cardList = cardList;
+        this.cardList2 = cardList;
     }
 
     /**
@@ -65,8 +66,8 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyViewHolder> 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(
-                R.layout.card_layout, parent, false);
-        return new MyViewHolder(view);
+                R.layout.card_layout_2, parent, false);
+        return new CardAdapter2.MyViewHolder(view);
     }
 
     /**
@@ -77,28 +78,25 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyViewHolder> 
      */
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        final DataModel dataModel = cardList.get(position);
-        holder.venue.setText(dataModel.getVenue());
-        holder.details.setText(dataModel.getDetail());
-        holder.description.setText(dataModel.getDescription());
-        holder.images.setImageResource(dataModel.getImages());
+        holder.venueName.setText(cardList2[position]);
         holder.images.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, MapActivity.class);
-                intent.putExtra("places", dataModel.getVenue());
-                context.startActivity(intent);
+                MapActivity mapActivity= (MapActivity) v.getContext();
+                LocationFragment fragment = new LocationFragment();
+                mapActivity.getSupportFragmentManager().beginTransaction().replace(R.id.maps_container, fragment,fragment.getTag()).
+                        addToBackStack("location").commit();
+
             }
         });
-
     }
 
     /**
      * Get the total number of profiled cards in the cardList
      * @return number of cards item.
      */
+    @Override
     public int getItemCount() {
-        return cardList.size();
+       return cardList2.length;
     }
-
 }

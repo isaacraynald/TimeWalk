@@ -17,9 +17,6 @@
         <item
             android:id="@+id/nav_favourites"
             android:title="Favourites" />
-        <item
-            android:id="@+id/nav_marked"
-            android:title="Marked" />
     </group>
 
 

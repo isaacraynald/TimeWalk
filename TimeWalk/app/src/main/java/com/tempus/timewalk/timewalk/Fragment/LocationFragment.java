@@ -18,17 +18,16 @@ import com.tempus.timewalk.timewalk.R;
 import static com.tempus.timewalk.timewalk.R.layout.fragment_location;
 
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link LocationFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link LocationFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * A {@link Fragment} subclass that display the landmark details screen.
  */
 public class LocationFragment extends Fragment {
 
+    /**
+     * Variables
+     */
     SliderAdapter sAdapter;
     ViewPager viewPager;
+    private OnFragmentInteractionListener mListener;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -39,8 +38,9 @@ public class LocationFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private OnFragmentInteractionListener mListener;
-
+    /**
+     * Empty Constructor
+     */
     public LocationFragment() {
         // Required empty public constructor
     }
@@ -70,9 +70,18 @@ public class LocationFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        ((NavigationDrawer)getActivity()).hideFloatingActionButton();
     }
 
+    /**
+     * Called to have the fragment instantiate its user interface view.
+     *
+     * @param inflater The LayoutInflater object that can be used to inflate any views in the
+     *                 fragment.
+     * @param container If non-null, this is the parent view that the fragment's UI should be
+     *                  attached to.
+     * @param savedInstanceState a Bundle object containing the activity's previously saved state.
+     * @return A new instance of fragment HomeFragment.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -82,6 +91,8 @@ public class LocationFragment extends Fragment {
 
         viewPager = (ViewPager) view.findViewById(R.id.view_pager);
         sAdapter = new SliderAdapter(this.getActivity());
+
+
 
         viewPager.setAdapter(sAdapter);
         return view;

@@ -10,14 +10,8 @@ import android.view.ViewGroup;
 import com.tempus.timewalk.timewalk.Activity.NavigationDrawer;
 import com.tempus.timewalk.timewalk.R;
 
-
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link FavouritesFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link FavouritesFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * A {@link Fragment} subclass that display the favorite screen.
  */
 public class FavouritesFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
@@ -60,14 +54,16 @@ public class FavouritesFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        ((NavigationDrawer)getActivity()).hideFloatingActionButton();
+        //((NavigationDrawer)getActivity()).hideFloatingActionButton();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_favourites, container, false);
+        View view = inflater.inflate(R.layout.fragment_favourites, container, false);
+        getActivity().setTitle("Favourites");
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
