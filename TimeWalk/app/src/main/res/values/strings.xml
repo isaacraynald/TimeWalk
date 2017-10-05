@@ -17,4 +17,5 @@
     <string name="location_caption1">Image 1</string>
     <string name="location_caption2">Image 2</string>
     <string name="location_caption3">Image 3</string>
+    <string name="title_activity_customized_routes_maps">CustomizedRoutesMaps</string>
 </resources>
