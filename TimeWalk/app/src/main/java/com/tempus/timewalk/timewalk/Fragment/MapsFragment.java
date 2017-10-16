@@ -179,7 +179,6 @@ public class MapsFragment extends Fragment implements LocationListener,
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(cardAdapter2);
-
     }
 
     /**
