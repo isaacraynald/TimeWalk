@@ -1,8 +1,13 @@
 package com.tempus.timewalk.timewalk.Classes;
 
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.view.View;
+
+import static android.content.Context.NOTIFICATION_SERVICE;
 
 /**
  * Created by AlphaCR on 13/10/2017.
@@ -23,4 +28,16 @@ public class NotificationReceiver extends BroadcastReceiver
 
         }
     }
+/*
+    public void getNotification (View view){
+        NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+        Notification notif = new Notification.Builder(this)
+                .setContentTitle("Lets have a walk!")
+                .setContentText("Your location is close to a historic landmark")
+                .build();
+
+        notificationManager.notify(0,notif);
+    }
+
+    */
 }
