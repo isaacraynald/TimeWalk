@@ -55,6 +55,10 @@
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="@string/google_maps_key" />
 
+        <activity
+            android:name=".Activity.CustomizedRoutesMaps"
+            android:label="@string/title_activity_customized_routes_maps"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
 
         <activity android:name=".Activity.MapActivity"></activity>
 
@@ -69,7 +73,6 @@
                 <category android:name="com.myappname" />
             </intent-filter>
         </receiver>
-
     </application>
 
 </manifest>

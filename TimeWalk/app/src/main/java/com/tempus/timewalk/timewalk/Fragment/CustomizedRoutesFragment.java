@@ -6,6 +6,14 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import java.util.ArrayList;
+
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.Button;
 
 import com.tempus.timewalk.timewalk.Activity.NavigationDrawer;
 import com.tempus.timewalk.timewalk.R;
@@ -15,6 +23,9 @@ import com.tempus.timewalk.timewalk.R;
  *
  */
 public class CustomizedRoutesFragment extends Fragment {
+
+    ArrayList<String> selectedItems = new ArrayList<>();
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -63,10 +74,56 @@ public class CustomizedRoutesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
         View view = inflater.inflate(R.layout.fragment_customized_routes, container, false);
-        getActivity().setTitle("Customized");
+
+        Button button = (Button) view.findViewById(R.id.get_route_bt);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String items = "";
+                for(String item:selectedItems){
+                    items += "-" + item + "\n";
+                }
+                Toast.makeText(getActivity(), "You have selected \n" + items,Toast.LENGTH_LONG).show();
+            }
+        });
+
+        ListView chl = (ListView)view.findViewById(R.id.checkable_list);
+
+        chl.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+
+        String[] items = {"Cavill Avenue","Florida Car-o-Tel Caravan Park","Nerang River","Gold Coast Highway","El Dorado Motel","Ski Garden","Overlook Hotel"};
+
+        ArrayAdapter<String> adapter= new ArrayAdapter<String>(this.getActivity(),R.layout.row_layout, R.id.txt_lan, items);
+
+        chl.setAdapter(adapter);
+        chl.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String selectedItem = ((TextView)view).getText().toString();
+                if(selectedItems.contains(selectedItem)){
+                    selectedItems.remove(selectedItem); //uncheck item
+                }
+                else {
+                    selectedItems.add(selectedItem);
+                }
+            }
+        });
+
+
         return view;
     }
+
+    public void showSelectedItems (View view){
+        String items = "";
+        for(String item:selectedItems){
+            items += "-" + item + "\n";
+        }
+        Toast.makeText(this.getActivity(), "You have selected \n" + items,Toast.LENGTH_LONG).show();
+
+    }
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
