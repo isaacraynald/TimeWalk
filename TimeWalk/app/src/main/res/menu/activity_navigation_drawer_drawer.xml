@@ -4,14 +4,22 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
+            android:icon="@android:drawable/ic_menu_mapmode"
             android:title="Home Page" />
-        <item
-            android:id="@+id/nav_recommended"
-            android:title="Recommended Routes" />
-        <item
-            android:id="@+id/nav_customized"
-            android:title="Customized Routes" />
     </group>
+    <item android:title="Routes">
+        <menu>
+            <item
+                android:id="@+id/nav_recommended"
+                android:icon="@android:drawable/ic_menu_compass"
+                android:title="Show Recommended Routes" />
+            <item
+                android:id="@+id/nav_customized"
+                android:icon="@android:drawable/ic_menu_compass"
+                android:title="Let Me Customize My Own" />
+        </menu>
+    </item>
+
 
 
 </menu>
