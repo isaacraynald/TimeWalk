@@ -12,11 +12,11 @@
             <item
                 android:id="@+id/nav_recommended"
                 android:icon="@android:drawable/ic_menu_compass"
-                android:title="Show Recommended Routes" />
+                android:title="Show recommended routes" />
             <item
                 android:id="@+id/nav_customized"
                 android:icon="@android:drawable/ic_menu_compass"
-                android:title="Let Me Customize My Own" />
+                android:title="Let me customize my Own" />
         </menu>
     </item>
 
