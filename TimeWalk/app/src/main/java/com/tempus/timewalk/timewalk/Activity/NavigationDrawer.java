@@ -1,12 +1,14 @@
 package com.tempus.timewalk.timewalk.Activity;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -16,13 +18,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.tempus.timewalk.timewalk.Classes.Data;
+import com.tempus.timewalk.timewalk.Classes.DataOperations;
 import com.tempus.timewalk.timewalk.Fragment.CustomizedRoutesFragment;
-import com.tempus.timewalk.timewalk.Fragment.FavouritesFragment;
 import com.tempus.timewalk.timewalk.Fragment.HomeFragment;
-import com.tempus.timewalk.timewalk.Fragment.LocationFragment;
 import com.tempus.timewalk.timewalk.Fragment.RecommendedRoutesFragment;
-import com.tempus.timewalk.timewalk.Fragment.SpotsFragment;
 import com.tempus.timewalk.timewalk.R;
+
+import java.util.List;
 
 /**
  * A {@Link Activity} subclass
@@ -39,6 +42,8 @@ public class NavigationDrawer extends AppCompatActivity
     FloatingActionButton fab;
     Toolbar toolbar;
     NavigationView navigationView;
+
+    private List<Data> dataList;
 
     /**
      * Use this to fires when the system first creates the activity
@@ -62,7 +67,10 @@ public class NavigationDrawer extends AppCompatActivity
                 //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                       //  .setAction("Action", null).show();
             //}
+
+        new DataOperations(getApplicationContext()).execute("https://deco3801-tempus.uqcloud.net/getDatas.php");
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
 
         HomeFragment homeFragment = new HomeFragment();
         RecommendedRoutesFragment recommendedRoutesFragment = new RecommendedRoutesFragment();
@@ -80,11 +88,28 @@ public class NavigationDrawer extends AppCompatActivity
 
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+
+        NotificationManager notificationmgr = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+        Intent intent = new Intent(this, NavigationDrawer.class);
+        intent.putExtra("fragment", 1);
+        PendingIntent pintent = PendingIntent.getActivity(this, (int) System.currentTimeMillis(), intent, 0);
+
+        Notification notif = new Notification.Builder(this)
+                .setSmallIcon(R.drawable.logo2)
+                .setContentTitle("Have a walk to the past, today!")
+                .setContentText("You are near one of our recommended routes.")
+                .setContentIntent(pintent)
+                .build();
+
+
+        notificationmgr.notify(0,notif);
     }
+
+
+
 
     /**
      * Called when the activity has detected the user's press of the back key.
@@ -98,7 +123,7 @@ public class NavigationDrawer extends AppCompatActivity
         changeDrawerItem(R.id.nav_home);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        }else if(fragmentManager.getBackStackEntryCount() > 1) {
+        }else if(fragmentManager.getBackStackEntryCount() > 0) {
             fragmentManager.popBackStack(fragmentManager.getBackStackEntryAt(0).getId(),
                     fragmentManager.POP_BACK_STACK_INCLUSIVE);
             fragmentManager.beginTransaction().replace(R.id.content_home, homeFragment,

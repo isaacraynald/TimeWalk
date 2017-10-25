@@ -1,6 +1,8 @@
 package com.tempus.timewalk.timewalk.Fragment;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,19 +10,32 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import com.tempus.timewalk.timewalk.Activity.NavigationDrawer;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.tempus.timewalk.timewalk.Classes.ImageListener;
+import com.tempus.timewalk.timewalk.Classes.ImagesOperations;
 import com.tempus.timewalk.timewalk.GalleryView.SliderAdapter;
-import android.content.Context;
-import android.support.v4.view.PagerAdapter;
 import com.tempus.timewalk.timewalk.R;
 
-import static com.tempus.timewalk.timewalk.R.layout.fragment_location;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A {@link Fragment} subclass that display the landmark details screen.
  */
-public class LocationFragment extends Fragment {
+public class LocationFragment extends Fragment implements ImageListener{
 
     /**
      * Variables
@@ -70,6 +85,7 @@ public class LocationFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
     }
 
     /**
@@ -88,15 +104,67 @@ public class LocationFragment extends Fragment {
         // Inflate the layout for this fragment
         super.getActivity();
         View view = inflater.inflate(R.layout.fragment_location, container, false);
+        //locationImg = {R.drawable.location_image01, R.drawable.location_image02, R.drawable.location_image03};
 
+
+        String id = getArguments().getString("ID");
+        String name = getArguments().getString("Name");
+        String description = getArguments().getString("Description");
+
+        TextView txtName = (TextView)view.findViewById(R.id.location_name);
+        txtName.setText(name);
+
+        TextView txtDesc = (TextView)view.findViewById(R.id.location_desc);
+        txtDesc.setText(description);
+
+        new ImagesOperations(getActivity().getApplicationContext(), this).execute("https://deco3801-tempus.uqcloud.net/getImages.php",id);
+
+        String[] locationImage = {"TEST"};
+        String[] captionList = {"Sea Breeze, Taken on January 12, 1961", "Taken on January 29, 1963", "Taken in August 1960"};
+
+        //setImages(str);
         viewPager = (ViewPager) view.findViewById(R.id.view_pager);
-        sAdapter = new SliderAdapter(this.getActivity());
+        //sAdapter = new SliderAdapter(this.getActivity(), locationImage, captionList);
 
-
-
-        viewPager.setAdapter(sAdapter);
+        //viewPager.setAdapter(sAdapter);
         return view;
     }
+
+    @Override
+    public void setImages(String str) {
+        List<String> listLocation = new ArrayList<>();
+        List<String> listName = new ArrayList<>();
+        List<String> listCaption = new ArrayList<>();
+        try {
+            JSONObject jsonData = new JSONObject(str);
+            if (jsonData.getInt("success") == 1) {
+                JSONArray jsonArray = jsonData.getJSONArray("DataImages");
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                    listLocation.add(jsonObject.getString("Images"));
+                    listName.add(jsonObject.getString("Name"));
+                    listCaption.add(jsonObject.getString("Description"));
+
+                }
+                String[] listLink  = new String[listLocation.size()];
+                String[] listNames  = new String[listName.size()];
+                String[] listDesc = new String[listCaption.size()];
+                listLocation.toArray(listLink);
+                listName.toArray(listNames);
+                listCaption.toArray(listDesc);
+                sAdapter = new SliderAdapter(this.getActivity(), listLink, listNames, listDesc);
+                viewPager.setAdapter(sAdapter);
+
+            }
+
+
+
+
+            } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

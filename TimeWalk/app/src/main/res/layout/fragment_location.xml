@@ -29,7 +29,6 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
-                android:text="@string/venue_name"
                 android:textAppearance="?attr/textAppearanceListItem"
                 android:textColor="#01417a"
                 android:textSize="30sp"
@@ -41,7 +40,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_margin="10dp"
-                android:text="@string/location_desc"
                 android:textAppearance="?attr/textAppearanceListItem"
                 android:textSize="20sp" />
 

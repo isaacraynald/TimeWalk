@@ -44,8 +44,10 @@ import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.tempus.timewalk.timewalk.Activity.MapActivity;
 import com.tempus.timewalk.timewalk.CardView.CardAdapter2;
+import com.tempus.timewalk.timewalk.Classes.Data;
 import com.tempus.timewalk.timewalk.Classes.DirectionListener;
 import com.tempus.timewalk.timewalk.Classes.Directions;
+import com.tempus.timewalk.timewalk.Classes.ImageListener;
 import com.tempus.timewalk.timewalk.Models.Points;
 import com.tempus.timewalk.timewalk.R;
 
@@ -86,9 +88,12 @@ public class MapsFragment extends Fragment implements LocationListener,
     private RecyclerView recyclerView;
     private CardAdapter2 cardAdapter2;
     private String places;
+    private ImageListener imageListener;
 
     GoogleApiClient mGoogleApiClient;
     LocationRequest mLocationRequest;
+
+    ArrayList<Data> data;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -130,6 +135,7 @@ public class MapsFragment extends Fragment implements LocationListener,
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        data = getArguments().getParcelableArrayList("data");
         places = getActivity().getIntent().getStringExtra("places");
     }
 
@@ -161,19 +167,25 @@ public class MapsFragment extends Fragment implements LocationListener,
      */
     private void setListPlaces(View view, String places) {
         String[] name = new String[]{""};
+        String[] id = new String[]{""};
+        String[] desc = new String[]{""};
         switch (places){
             case "Family Walk" :
-                name = new String[]{"City Hall", "Anzac Square", "Roma Street Park"};
+                name = new String[]{data.get(4).getName(), data.get(5).getName(),data.get(6).getName()};
+                id = new String[]{String.valueOf(data.get(4).getID()), String.valueOf(data.get(5).getID()), String.valueOf(data.get(6).getID())};
+                desc = new String[]{data.get(4).getDescription(), data.get(5).getDescription(),data.get(6).getDescription()};
                 break;
 
             case "Retro Tour":
-                name = new String[]{"City Hall", "St.Stephen Cathedral", "Story Bridge"};
+                name = new String[]{data.get(7).getName(), data.get(8).getName(), data.get(9).getName()};
+                id = new String[]{String.valueOf(data.get(7).getID()), String.valueOf(data.get(8).getID()), String.valueOf(data.get(9).getID())};
+                desc = new String[]{data.get(7).getDescription(), data.get(8).getDescription(),data.get(9).getDescription()};
                 break;
             case "Sports Tour":
                 name = new String[]{"a","b","c"};
                 break;
         }
-        cardAdapter2 = new CardAdapter2(getContext(), name);
+        cardAdapter2 = new CardAdapter2(getContext(), name, id, desc, imageListener);
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
@@ -269,6 +281,7 @@ public class MapsFragment extends Fragment implements LocationListener,
      */
     @Override
     public void onLocationChanged(Location location) {
+        mMap.clear();
         latLng = new LatLng(location.getLatitude(), location.getLongitude());
         CameraPosition cameraPosition = new CameraPosition.Builder()
                 .target(latLng).zoom(18).build();
@@ -278,8 +291,6 @@ public class MapsFragment extends Fragment implements LocationListener,
         double lng = location.getLongitude();
 
         sendRequestAPI(lat,lng, places);
-
-        LatLng sydney = new LatLng(lat, lng);
         //mMap.addMarker(new MarkerOptions().position(sydney));
         //mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
 
@@ -364,18 +375,18 @@ public class MapsFragment extends Fragment implements LocationListener,
 
         switch (places) {
             case "Family Walk" :
-                destination = "-27.463806,153.020112";
-                wayPoints = "-27.465992,153.027562 | -27.468974,153.023442";
+                destination = formatCoordinates(6);
+                wayPoints = formatCoordinates(4) + "|" + formatCoordinates(5);
                 break;
 
             case "Retro Tour" :
-                destination = "-27.464028, 153.035722";
-                wayPoints = "-27.468952, 153.023554|-27.468602, 153.029011";
+                destination = formatCoordinates(9);
+                wayPoints =formatCoordinates(7) + "|" + formatCoordinates(8);
                 break;
 
             case "Sports Tour" :
-                destination = "";
-                wayPoints = "";
+                destination = formatCoordinates(11);
+                wayPoints = formatCoordinates(9) + "|" + formatCoordinates(8);
                 break;
 
         }
@@ -399,8 +410,8 @@ public class MapsFragment extends Fragment implements LocationListener,
             List<Address> addressesStart = geocoder.getFromLocation(lat, lng, 1);
             List<Address> addressesEnd = geocoder.getFromLocation(latDes,
                     lngDes, 1);
-            originMarkers.add(mMap.addMarker(new MarkerOptions().title(addressesStart.get(0).getAddressLine(0))
-                    .position(new LatLng(lat, lng))));
+            //originMarkers.add(mMap.addMarker(new MarkerOptions().title(addressesStart.get(0).getAddressLine(0))
+                    //.position(new LatLng(lat, lng))));
             destinationMarkers.add(mMap.addMarker((new MarkerOptions().title(addressesEnd.get(0).getAddressLine(0))
             .position(new LatLng(latDes, lngDes)))));
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latDes,
@@ -419,6 +430,10 @@ public class MapsFragment extends Fragment implements LocationListener,
 
         }
     };
+
+    public String formatCoordinates(int index){
+        return data.get(index).getLatitude() + "," + data.get(index).getLongitude();
+    }
 
     /**
      * Clear the old markers data (if exsists) off the map

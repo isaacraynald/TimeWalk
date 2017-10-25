@@ -1,6 +1,8 @@
 package com.tempus.timewalk.timewalk.CardView;
 
 import android.content.Context;
+import android.media.Image;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +13,8 @@ import android.widget.TextView;
 
 import com.tempus.timewalk.timewalk.Activity.MapActivity;
 import com.tempus.timewalk.timewalk.Activity.NavigationDrawer;
+import com.tempus.timewalk.timewalk.Classes.ImageListener;
+import com.tempus.timewalk.timewalk.Classes.ImagesOperations;
 import com.tempus.timewalk.timewalk.Fragment.LocationFragment;
 import com.tempus.timewalk.timewalk.R;
 
@@ -29,6 +33,9 @@ public class CardAdapter2 extends RecyclerView.Adapter<CardAdapter2.MyViewHolder
      */
     private Context context;
     private String[] cardList2;
+    private String[] ID;
+    private String[] description;
+    private ImageListener imageListener;
 
     /**
      * Values for card contents
@@ -41,9 +48,7 @@ public class CardAdapter2 extends RecyclerView.Adapter<CardAdapter2.MyViewHolder
             super(itemView);
             venueName = (TextView) itemView.findViewById(R.id.landmark_name);
             images = (ImageButton) itemView.findViewById(R.id.information);
-
         }
-
     }
 
     /**
@@ -51,9 +56,12 @@ public class CardAdapter2 extends RecyclerView.Adapter<CardAdapter2.MyViewHolder
      * @param context set context
      * @param cardList List of cards of all profiled landmarks in a tour
      */
-    public CardAdapter2(Context context, String[] cardList){
+    public CardAdapter2(Context context, String[] cardList, String[] ID, String[] description, ImageListener imageListener){
         this.context = context;
         this.cardList2 = cardList;
+        this.ID = ID;
+        this.imageListener = imageListener;
+        this.description = description;
     }
 
     /**
@@ -77,16 +85,34 @@ public class CardAdapter2 extends RecyclerView.Adapter<CardAdapter2.MyViewHolder
      * @param position The position of the item within the adapter's data set
      */
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
+    public void onBindViewHolder(MyViewHolder holder, final int position) {
         holder.venueName.setText(cardList2[position]);
         holder.images.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 MapActivity mapActivity= (MapActivity) v.getContext();
                 LocationFragment fragment = new LocationFragment();
+                Bundle b = new Bundle();
+                b.putString("ID", ID[position]);
+                b.putString("Name", cardList2[position]);
+                b.putString("Description", description[position]);
+                fragment.setArguments(b);
                 mapActivity.getSupportFragmentManager().beginTransaction().replace(R.id.maps_container, fragment,fragment.getTag()).
                         addToBackStack("location").commit();
-
+            }
+        });
+        holder.venueName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MapActivity mapActivity= (MapActivity) v.getContext();
+                LocationFragment fragment = new LocationFragment();
+                Bundle b = new Bundle();
+                b.putString("ID", ID[position]);
+                b.putString("Name", cardList2[position]);
+                b.putString("Description", description[position]);
+                fragment.setArguments(b);
+                mapActivity.getSupportFragmentManager().beginTransaction().replace(R.id.maps_container, fragment,fragment.getTag()).
+                        addToBackStack("location").commit();
             }
         });
     }

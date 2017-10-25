@@ -1,5 +1,9 @@
 package com.tempus.timewalk.timewalk.Fragment;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,6 +17,8 @@ import android.widget.ImageButton;
 
 import com.tempus.timewalk.timewalk.Activity.NavigationDrawer;
 import com.tempus.timewalk.timewalk.R;
+
+import static android.content.Context.NOTIFICATION_SERVICE;
 
 /**
  * A {@link Fragment} subclass that display the home screen.
@@ -128,6 +134,7 @@ public class HomeFragment extends Fragment {
             }
         });
 
+
         return view;
 
     }
@@ -170,4 +177,5 @@ public class HomeFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
 }
