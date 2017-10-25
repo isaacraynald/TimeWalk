@@ -41,9 +41,7 @@ public class CardAdapter2 extends RecyclerView.Adapter<CardAdapter2.MyViewHolder
             super(itemView);
             venueName = (TextView) itemView.findViewById(R.id.landmark_name);
             images = (ImageButton) itemView.findViewById(R.id.information);
-
         }
-
     }
 
     /**
@@ -86,7 +84,15 @@ public class CardAdapter2 extends RecyclerView.Adapter<CardAdapter2.MyViewHolder
                 LocationFragment fragment = new LocationFragment();
                 mapActivity.getSupportFragmentManager().beginTransaction().replace(R.id.maps_container, fragment,fragment.getTag()).
                         addToBackStack("location").commit();
-
+            }
+        });
+        holder.venueName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MapActivity mapActivity= (MapActivity) v.getContext();
+                LocationFragment fragment = new LocationFragment();
+                mapActivity.getSupportFragmentManager().beginTransaction().replace(R.id.maps_container, fragment,fragment.getTag()).
+                        addToBackStack("location").commit();
             }
         });
     }

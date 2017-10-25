@@ -1,11 +1,16 @@
 package com.tempus.timewalk.timewalk.Activity;
 
+import android.app.Activity;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.tempus.timewalk.timewalk.Fragment.HomeFragment;
 import com.tempus.timewalk.timewalk.Fragment.LocationFragment;
@@ -37,6 +42,7 @@ public class MapActivity extends AppCompatActivity {
         fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.maps_container, mapsFragment,
                 mapsFragment.getTag()).addToBackStack("map").commit();
+
     }
 
     /**
@@ -83,11 +89,11 @@ public class MapActivity extends AppCompatActivity {
                     maps.getTag()).addToBackStack("map").commit();
     }
     else {
-
             Intent intent = new Intent(this, NavigationDrawer.class);
             intent.putExtra("fragment", 1);
             startActivity(intent);
             finish();
         }
     }
+
 }

@@ -1,5 +1,9 @@
 package com.tempus.timewalk.timewalk.Activity;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -17,11 +21,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.tempus.timewalk.timewalk.Fragment.CustomizedRoutesFragment;
-import com.tempus.timewalk.timewalk.Fragment.FavouritesFragment;
 import com.tempus.timewalk.timewalk.Fragment.HomeFragment;
 import com.tempus.timewalk.timewalk.Fragment.LocationFragment;
 import com.tempus.timewalk.timewalk.Fragment.RecommendedRoutesFragment;
-import com.tempus.timewalk.timewalk.Fragment.SpotsFragment;
 import com.tempus.timewalk.timewalk.R;
 
 /**
@@ -84,6 +86,21 @@ public class NavigationDrawer extends AppCompatActivity
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+
+        NotificationManager notificationmgr = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+        Intent intent = new Intent(this, NavigationDrawer.class);
+        intent.putExtra("fragment", 1);
+        PendingIntent pintent = PendingIntent.getActivity(this, (int) System.currentTimeMillis(), intent, 0);
+
+        Notification notif = new Notification.Builder(this)
+                .setSmallIcon(R.drawable.logo2)
+                .setContentTitle("Have a walk to the past, today!")
+                .setContentText("You are near one of our recommended routes.")
+                .setContentIntent(pintent)
+                .build();
+
+
+        notificationmgr.notify(0,notif);
     }
 
     /**
