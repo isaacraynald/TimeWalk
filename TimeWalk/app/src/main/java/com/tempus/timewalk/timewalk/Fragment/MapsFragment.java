@@ -182,7 +182,17 @@ public class MapsFragment extends Fragment implements LocationListener,
                 desc = new String[]{data.get(7).getDescription(), data.get(8).getDescription(),data.get(9).getDescription()};
                 break;
             case "Sports Tour":
-                name = new String[]{"a","b","c"};
+                name = new String[]{data.get(9).getName(), data.get(8).getName(), data.get(11).getName()};
+                id = new String[]{String.valueOf(data.get(9).getID()), String.valueOf(data.get(8).getID()), String.valueOf(data.get(11).getID())};
+                desc = new String[]{data.get(9).getDescription(), data.get(8).getDescription(),data.get(11).getDescription()};
+                break;
+            case "custom":
+                List<String> names = getActivity().getIntent().getStringArrayListExtra("name");
+                name = names.toArray(new String[0]);
+                List<String> ID = getActivity().getIntent().getStringArrayListExtra("ID");
+                id = ID.toArray(new String[0]);
+                List<String> Desc = getActivity().getIntent().getStringArrayListExtra("desc");
+                desc = Desc.toArray(new String[0]);
                 break;
         }
         cardAdapter2 = new CardAdapter2(getContext(), name, id, desc, imageListener);
@@ -388,6 +398,10 @@ public class MapsFragment extends Fragment implements LocationListener,
                 destination = formatCoordinates(11);
                 wayPoints = formatCoordinates(9) + "|" + formatCoordinates(8);
                 break;
+            case "custom":
+                destination = getActivity().getIntent().getStringExtra("destination");
+                wayPoints = getActivity().getIntent().getStringExtra("waypoints");
+                break;
 
         }
         //String destination = "-27.494721,153.014262";
@@ -399,13 +413,19 @@ public class MapsFragment extends Fragment implements LocationListener,
             Double lngDes= Double.parseDouble(destination.split(",")[1]);
             String [] points = wayPoints.split(Pattern.quote("|")) ;
 
-            for(String point : points) {
-                Double latPoint = Double.parseDouble((point.split(",")[0]));
-                Double lngPoint = Double.parseDouble((point.split(",")[1]));
-                List<Address> addressesPoint = geocoder.getFromLocation(latPoint, lngPoint, 1);
-                wayPointsMarkers.add(mMap.addMarker(new MarkerOptions().title(addressesPoint.get(0).getAddressLine(0))
-                        .position(new LatLng(latPoint, lngPoint))));
+            if(wayPoints.equals("")){
+
             }
+            else{
+                for(String point : points) {
+                    Double latPoint = Double.parseDouble((point.split(",")[0]));
+                    Double lngPoint = Double.parseDouble((point.split(",")[1]));
+                    List<Address> addressesPoint = geocoder.getFromLocation(latPoint, lngPoint, 1);
+                    wayPointsMarkers.add(mMap.addMarker(new MarkerOptions().title(addressesPoint.get(0).getAddressLine(0))
+                            .position(new LatLng(latPoint, lngPoint))));
+                }
+            }
+
 
             List<Address> addressesStart = geocoder.getFromLocation(lat, lng, 1);
             List<Address> addressesEnd = geocoder.getFromLocation(latDes,

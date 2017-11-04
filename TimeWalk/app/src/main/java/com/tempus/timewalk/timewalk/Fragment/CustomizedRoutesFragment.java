@@ -1,5 +1,8 @@
 package com.tempus.timewalk.timewalk.Fragment;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -7,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -15,8 +20,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Button;
 
+import com.tempus.timewalk.timewalk.Activity.MapActivity;
 import com.tempus.timewalk.timewalk.Activity.NavigationDrawer;
+import com.tempus.timewalk.timewalk.Classes.Data;
 import com.tempus.timewalk.timewalk.R;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * A {@link Fragment} subclass that display the customized route screen.
@@ -25,6 +36,9 @@ import com.tempus.timewalk.timewalk.R;
 public class CustomizedRoutesFragment extends Fragment {
 
     ArrayList<String> selectedItems = new ArrayList<>();
+    ArrayList<String> selectedID = new ArrayList<>();
+    ArrayList<String> selectedDesc = new ArrayList<>();
+    ArrayList<String> selectedLatLon = new ArrayList<>();
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -36,6 +50,8 @@ public class CustomizedRoutesFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+
+    List<Data> datas;
 
     public CustomizedRoutesFragment() {
         // Required empty public constructor
@@ -78,14 +94,34 @@ public class CustomizedRoutesFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_customized_routes, container, false);
 
         Button button = (Button) view.findViewById(R.id.get_route_bt);
+        SharedPreferences sfc = getActivity().getSharedPreferences("Datas", Context.MODE_PRIVATE);
+        String str = sfc.getString("json", "");
+
+        try {
+            datas = parseJson(str);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String items = "";
-                for(String item:selectedItems){
-                    items += "-" + item + "\n";
+                for(int i = 0; i<selectedLatLon.size()-1;i++){
+                    items+=selectedLatLon.get(i) + "|";
                 }
-                Toast.makeText(getActivity(), "You have selected \n" + items,Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(getContext(), MapActivity.class);
+                intent.putExtra("places", "custom");
+                intent.putExtra("type", "custom");
+                intent.putStringArrayListExtra("name", selectedItems);
+                intent.putStringArrayListExtra("ID", selectedID);
+                intent.putStringArrayListExtra("desc", selectedDesc);
+                intent.putExtra("waypoints", items);
+                intent.putExtra("destination", selectedLatLon.get(selectedLatLon.size()-1));
+
+
+                getContext().startActivity(intent);
             }
         });
 
@@ -93,9 +129,15 @@ public class CustomizedRoutesFragment extends Fragment {
 
         chl.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 
-        String[] items = {"Cavill Avenue","Florida Car-o-Tel Caravan Park","Nerang River","Gold Coast Highway","El Dorado Motel","Ski Garden","Overlook Hotel"};
+        List<String> list = new ArrayList<>();
 
-        ArrayAdapter<String> adapter= new ArrayAdapter<String>(this.getActivity(),R.layout.row_layout, R.id.txt_lan, items);
+        for(Data data: datas){
+            list.add(data.getName());
+        }
+        ArrayList<String> array = new ArrayList<>(datas.size());
+        array.addAll(list);
+
+        ArrayAdapter<String> adapter= new ArrayAdapter<String>(this.getActivity(),R.layout.row_layout, R.id.txt_lan, array);
 
         chl.setAdapter(adapter);
         chl.setOnItemClickListener(new AdapterView.OnItemClickListener(){
@@ -104,15 +146,46 @@ public class CustomizedRoutesFragment extends Fragment {
                 String selectedItem = ((TextView)view).getText().toString();
                 if(selectedItems.contains(selectedItem)){
                     selectedItems.remove(selectedItem); //uncheck item
+                    selectedID.remove(String.valueOf(datas.get(position).getID()));
+                    selectedDesc.remove(datas.get(position).getDescription());
+                    selectedLatLon.remove(datas.get(position).getLatitude()+","+ datas.get(position).getLongitude());
+
                 }
                 else {
                     selectedItems.add(selectedItem);
+                    selectedID.add(String.valueOf(datas.get(position).getID()));
+                    selectedDesc.add(datas.get(position).getDescription());
+                    selectedLatLon.add(datas.get(position).getLatitude()+","+ datas.get(position).getLongitude());
                 }
             }
         });
 
 
         return view;
+    }
+
+    private List<Data> parseJson(String str) throws JSONException {
+        if (str == null) {
+            return null;
+        }
+        List<Data> dataList = new ArrayList<>();
+        HashMap<String, String> images = new HashMap<>();
+        JSONObject jsonData = new JSONObject(str);
+        if (jsonData.getInt("success") == 1) {
+            JSONArray jsonArray = jsonData.getJSONArray("data");
+
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                Data data = new Data(jsonObject.getInt("ID"), jsonObject.getString("Name"), jsonObject.getString("Latitude"),
+                        jsonObject.getString("Longitude"), jsonObject.getString("Description"), jsonObject.getInt("ImageId"));
+                dataList.add(data);
+
+            }
+
+        } else {
+            String errorMsg = jsonData.getString("message");
+        }
+        return dataList;
     }
 
     public void showSelectedItems (View view){

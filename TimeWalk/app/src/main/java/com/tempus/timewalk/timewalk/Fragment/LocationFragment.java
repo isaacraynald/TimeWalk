@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.tempus.timewalk.timewalk.AppConfig;
 import com.tempus.timewalk.timewalk.Classes.ImageListener;
 import com.tempus.timewalk.timewalk.Classes.ImagesOperations;
 import com.tempus.timewalk.timewalk.GalleryView.SliderAdapter;
@@ -117,7 +118,7 @@ public class LocationFragment extends Fragment implements ImageListener{
         TextView txtDesc = (TextView)view.findViewById(R.id.location_desc);
         txtDesc.setText(description);
 
-        new ImagesOperations(getActivity().getApplicationContext(), this).execute("https://deco3801-tempus.uqcloud.net/getImages.php",id);
+        new ImagesOperations(getActivity().getApplicationContext(), this).execute(AppConfig.URL_SERVER + "getImages.php",id);
 
         String[] locationImage = {"TEST"};
         String[] captionList = {"Sea Breeze, Taken on January 12, 1961", "Taken on January 29, 1963", "Taken in August 1960"};

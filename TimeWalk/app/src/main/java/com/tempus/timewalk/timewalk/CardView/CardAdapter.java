@@ -87,6 +87,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyViewHolder> 
             public void onClick(View v) {
                 Intent intent = new Intent(context, MapActivity.class);
                 intent.putExtra("places", dataModel.getVenue());
+                intent.putExtra("type", "recommended");
                 context.startActivity(intent);
             }
         });

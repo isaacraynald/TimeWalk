@@ -18,6 +18,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.tempus.timewalk.timewalk.AppConfig;
 import com.tempus.timewalk.timewalk.Classes.Data;
 import com.tempus.timewalk.timewalk.Classes.DataOperations;
 import com.tempus.timewalk.timewalk.Fragment.CustomizedRoutesFragment;
@@ -68,16 +69,21 @@ public class NavigationDrawer extends AppCompatActivity
                       //  .setAction("Action", null).show();
             //}
 
-        new DataOperations(getApplicationContext()).execute("https://deco3801-tempus.uqcloud.net/getDatas.php");
+        new DataOperations(getApplicationContext()).execute(AppConfig.URL_SERVER + "getDatas.php");
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
 
         HomeFragment homeFragment = new HomeFragment();
         RecommendedRoutesFragment recommendedRoutesFragment = new RecommendedRoutesFragment();
+        CustomizedRoutesFragment customizedRoutesFragment = new CustomizedRoutesFragment();
         fragmentManager = getSupportFragmentManager();
         if(getIntent().getIntExtra("fragment",0) == 1){
             fragmentManager.beginTransaction().replace(R.id.content_home, recommendedRoutesFragment,
                     recommendedRoutesFragment.getTag()).addToBackStack("a").commit();
+        }
+        else if(getIntent().getIntExtra("fragment",0) == 2){
+            fragmentManager.beginTransaction().replace(R.id.content_home, customizedRoutesFragment,
+                    customizedRoutesFragment.getTag()).addToBackStack("a").commit();
         }
         else {
             fragmentManager.beginTransaction().replace(R.id.content_home, homeFragment,

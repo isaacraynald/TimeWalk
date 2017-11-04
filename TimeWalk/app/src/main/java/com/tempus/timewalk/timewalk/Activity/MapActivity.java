@@ -99,10 +99,17 @@ public class MapActivity extends AppCompatActivity{
                     fragmentManager.beginTransaction().replace(R.id.maps_container, maps,
                             maps.getTag()).addToBackStack("map").commit();
                 }
-                else {
+                else if(getIntent().getStringExtra("type").equals("recommended")){
 
                     Intent intent = new Intent(this, NavigationDrawer.class);
                     intent.putExtra("fragment", 1);
+                    startActivity(intent);
+                    finish();
+                }
+                else {
+
+                    Intent intent = new Intent(this, NavigationDrawer.class);
+                    intent.putExtra("fragment", 2);
                     startActivity(intent);
                     finish();
                 }
@@ -151,9 +158,17 @@ public class MapActivity extends AppCompatActivity{
             fragmentManager.beginTransaction().replace(R.id.maps_container, maps,
                     maps.getTag()).addToBackStack("map").commit();
     }
-    else {
+        else if(getIntent().getStringExtra("type").equals("recommended")){
+
             Intent intent = new Intent(this, NavigationDrawer.class);
             intent.putExtra("fragment", 1);
+            startActivity(intent);
+            finish();
+        }
+        else {
+
+            Intent intent = new Intent(this, NavigationDrawer.class);
+            intent.putExtra("fragment", 2);
             startActivity(intent);
             finish();
         }
