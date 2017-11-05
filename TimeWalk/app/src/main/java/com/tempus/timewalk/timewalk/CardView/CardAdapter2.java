@@ -115,6 +115,15 @@ public class CardAdapter2 extends RecyclerView.Adapter<CardAdapter2.MyViewHolder
                         addToBackStack("location").commit();
             }
         });
+        holder.venueName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MapActivity mapActivity= (MapActivity) v.getContext();
+                LocationFragment fragment = new LocationFragment();
+                mapActivity.getSupportFragmentManager().beginTransaction().replace(R.id.maps_container, fragment,fragment.getTag()).
+                        addToBackStack("location").commit();
+            }
+        });
     }
 
     /**
