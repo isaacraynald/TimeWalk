@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.tempus.timewalk.timewalk.Activity.MapActivity;
-import com.tempus.timewalk.timewalk.Models.DataModel;
+import com.tempus.timewalk.timewalk.Models.Information;
 import com.tempus.timewalk.timewalk.R;
 
 import java.util.List;
@@ -26,7 +26,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyViewHolder> 
      * Variables
      */
     private Context context;
-    private List<DataModel> cardList;
+    private List<Information> cardList;
 
     /**
      * Values for card contents
@@ -77,7 +77,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyViewHolder> 
      */
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        final DataModel dataModel = cardList.get(position);
+        final Information dataModel = cardList.get(position);
         holder.venue.setText(dataModel.getVenue());
         holder.details.setText(dataModel.getDetail());
         holder.description.setText(dataModel.getDescription());

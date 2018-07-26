@@ -5,7 +5,7 @@ package com.tempus.timewalk.timewalk.Models;
  * Created by Isaac on 23/8/17.
  */
 
-public class DataModel {
+public class Information {
 
     /**
      * Variables
@@ -22,7 +22,7 @@ public class DataModel {
      * @param description description of the tour
      * @int images Images associated with the venue
      */
-    public DataModel(String venue, String detail, String description, int images){
+    public Information(String venue, String detail, String description, int images){
         this.venue = venue;
         this.detail = detail;
         this.description = description;

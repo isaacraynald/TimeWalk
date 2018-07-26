@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 
 import com.tempus.timewalk.timewalk.Activity.NavigationDrawer;
 import com.tempus.timewalk.timewalk.CardView.CardAdapter;
-import com.tempus.timewalk.timewalk.Models.DataModel;
+import com.tempus.timewalk.timewalk.Models.Information;
 import com.tempus.timewalk.timewalk.R;
 
 import java.util.ArrayList;
@@ -38,7 +38,7 @@ public class RecommendedRoutesFragment extends Fragment {
      */
     private OnFragmentInteractionListener mListener;
 
-    private List<DataModel> cardList;
+    private List<Information> cardList;
     private CardAdapter cardAdapter;
     private RecyclerView recyclerView;
 
@@ -123,10 +123,10 @@ public class RecommendedRoutesFragment extends Fragment {
         String[] description = new String[]{"Have some quality time with your family on this great, " +
                 "family friendly route","Have you ever wondered what Brisbane looked like decades ago? " ,
                 "Big fan of sports and cars? This route is the one for you!"};
-        DataModel d;
+        Information d;
 
         for(int i = 0; i < title.length; i++){
-            d = new DataModel(title[i], details[i], description[i], images[i]);
+            d = new Information(title[i], details[i], description[i], images[i]);
             cardList.add(d);
         }
     }

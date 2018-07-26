@@ -1,7 +1,6 @@
 package com.tempus.timewalk.timewalk.Fragment;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Address;
@@ -44,7 +43,7 @@ import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.tempus.timewalk.timewalk.Activity.MapActivity;
 import com.tempus.timewalk.timewalk.CardView.CardAdapter2;
-import com.tempus.timewalk.timewalk.Classes.Data;
+import com.tempus.timewalk.timewalk.Models.Data;
 import com.tempus.timewalk.timewalk.Classes.DirectionListener;
 import com.tempus.timewalk.timewalk.Classes.Directions;
 import com.tempus.timewalk.timewalk.Classes.ImageListener;

@@ -22,7 +22,7 @@ import android.widget.Button;
 
 import com.tempus.timewalk.timewalk.Activity.MapActivity;
 import com.tempus.timewalk.timewalk.Activity.NavigationDrawer;
-import com.tempus.timewalk.timewalk.Classes.Data;
+import com.tempus.timewalk.timewalk.Models.Data;
 import com.tempus.timewalk.timewalk.R;
 
 import org.json.JSONArray;

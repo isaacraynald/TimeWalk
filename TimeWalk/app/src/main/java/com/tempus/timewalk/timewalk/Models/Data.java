@@ -1,13 +1,7 @@
-package com.tempus.timewalk.timewalk.Classes;
+package com.tempus.timewalk.timewalk.Models;
 
-import android.media.Image;
 import android.os.Parcel;
 import android.os.Parcelable;
-
-import com.google.android.gms.maps.model.LatLng;
-
-import java.io.Serializable;
-import java.util.List;
 
 /**
  * Created by Isaac on 12/10/17.
